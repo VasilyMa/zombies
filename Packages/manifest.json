@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "com.leopotam.ecslite": "https://github.com/Leopotam/ecslite.git",
+    "com.leopotam.ecslite.di": "https://github.com/Leopotam/ecslite-di.git",
+    "com.leopotam.ecslite.extendedsystems": "https://github.com/Leopotam/ecslite-extendedsystems.git",
+    "com.leopotam.ecslite.unityeditor": "https://github.com/Leopotam/ecslite-unityeditor.git",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.collab-proxy": "2.10.2",
     "com.unity.ide.rider": "3.0.38",
