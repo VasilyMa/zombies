@@ -11,10 +11,7 @@ namespace Statement
             {
                 return (InitState)State.Instance;
             }
-        }
-#if UNITY_EDITOR
-        [UnityEngine.SerializeField] UnityEditor.SceneAsset TargetScene;
-#endif 
+        } 
         public override void Awake()
         {
         }

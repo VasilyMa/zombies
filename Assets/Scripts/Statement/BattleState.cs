@@ -12,9 +12,7 @@ namespace Statement
             {
                 return (BattleState)State.Instance;
             }
-        } 
-
-        public EntityBase PlayerEntityBase;
+        }  
         protected EcsRunHandler EcsHandler;
         protected Dictionary<string, EcsPackedEntity> _ecsMap = new();
         public override void Awake()
@@ -33,9 +31,7 @@ namespace Statement
         {
             base.OnDestroy();   
             EcsHandler.Dispose();
-        }
-         
-
+        } 
         public virtual void AddEntity(string localKey, int entity)
         {
             var packed = EcsHandler.World.PackEntity(entity);
@@ -51,7 +47,6 @@ namespace Statement
 
             return _ecsMap.TryGetValue(key, out packedEntity);
         }
-
         public virtual bool TryGetEntity(string key, out int unpackedEntity)
         {
             if (TryGetEntity(key, out EcsPackedEntity packed) && packed.Unpack(EcsHandler.World, out int entity))
