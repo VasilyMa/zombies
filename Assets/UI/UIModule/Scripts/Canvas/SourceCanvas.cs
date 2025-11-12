@@ -81,11 +81,11 @@ public abstract class SourceCanvas : MonoBehaviour
 
         return returnedPanel as T;
     }
-
     public virtual T OpenPanel<T>(params Action[] callback) where T : SourcePanel
     {
         SourcePanel returnedPanel = null;
 
+        // Сначала ищем нужную панель
         foreach (var sourcePanel in _panels)
         {
             if (sourcePanel.isAlwaysOpen)
@@ -98,15 +98,64 @@ public abstract class SourceCanvas : MonoBehaviour
             {
                 returnedPanel = panel;
             }
-            else
+        }
+
+        // Если нашли — закрываем остальные и открываем нужную
+        if (returnedPanel != null)
+        {
+            foreach (var sourcePanel in _panels)
             {
-                sourcePanel.OnCLose();
+                if (sourcePanel != returnedPanel && !sourcePanel.isAlwaysOpen)
+                {
+                    sourcePanel.OnCLose();
+                }
+            }
+
+            if (!returnedPanel.isOpen)
+                returnedPanel.OnOpen(callback);
+        }
+
+        return returnedPanel as T;
+    }
+
+
+    public virtual bool TryOpenPanel<T>(out T returnedPanel, params Action[] callback) where T : SourcePanel
+    {
+        returnedPanel = null;
+
+        // Сначала ищем нужную панель
+        foreach (var sourcePanel in _panels)
+        {
+            if (sourcePanel.isAlwaysOpen)
+            {
+                sourcePanel.OnOpen(callback);
+                continue;
+            }
+
+            if (sourcePanel is T panel)
+            {
+                returnedPanel = panel;
             }
         }
 
-        if(!returnedPanel.isOpen) returnedPanel.OnOpen(callback);
+        // Если нашли — закрываем остальные и открываем нужную
+        if (returnedPanel != null)
+        {
+            foreach (var sourcePanel in _panels)
+            {
+                if (sourcePanel != returnedPanel && !sourcePanel.isAlwaysOpen)
+                {
+                    sourcePanel.OnCLose();
+                }
+            }
 
-        return returnedPanel as T;
+            if (!returnedPanel.isOpen)
+                returnedPanel.OnOpen(callback);
+
+            return true;
+        }
+
+        return false;
     }
 
     public virtual T GetPanel<T>() where T : SourcePanel

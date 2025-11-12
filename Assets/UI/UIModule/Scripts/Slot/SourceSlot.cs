@@ -14,8 +14,7 @@ public abstract class SourceSlot : MonoBehaviour
     protected SourceLayout _layout;
     protected Button _btnClick; 
     protected Animation _loading;
-    [UIInject] protected EcsWorld _world;
-    [UIInject] protected BattleState _state;
+
     public virtual SourceSlot Init(SourceLayout layout)
     {
         _layout = layout;
@@ -62,7 +61,7 @@ public abstract class SourceSlot : MonoBehaviour
     public abstract void OnPress(); 
     public abstract void OnRelease();
     public abstract void OnHold(float holdTime);
-    public abstract void UpdateView();
+    public abstract void UpdateView(object data);
     public virtual void Dispose()
     {
         _btnClick?.onClick.RemoveListener(OnClick);

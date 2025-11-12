@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Statement
 {
@@ -16,12 +17,32 @@ namespace Statement
         }
         public override void Start()
         {
+            if (UIModule.OpenCanvas<MenuCanvas>(out var menuCanvas))
+            {
+                if (menuCanvas.TryOpenPanel<MenuPanel>(out var panel))
+                { 
+                    UIModule.Inject(this);
+                }
+            }
         }
         public override void Update()
         {
         }
         public override void FixedUpdate()
         {
+        }
+
+        public void Play()
+        {
+            if (UIModule.OpenCanvas<LoadingCanvas>(out var loadingCanvas))
+            {
+                if (loadingCanvas.TryOpenPanel<LoadingPanel>(out var loadingPanel))
+                {
+                    var async = SceneManager.LoadSceneAsync(2);
+
+                    loadingPanel.SetLoadingData(async);
+                }
+            }
         }
     }
 }

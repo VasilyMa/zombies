@@ -30,10 +30,7 @@ public abstract class SourcePanel : MonoBehaviour
     protected Sequence _sequenceHide;
     protected Sequence _sequenceShow;
     protected Action[] _callbacks = new Action[0];
-
-    [UIInject] protected BattleState _state;
-    [UIInject] protected EcsWorld _world;
-
+     
     public bool isOpenOnInit;
     public bool isAlwaysOpen;
     [HideInInspector] public bool isOpen;
@@ -149,15 +146,15 @@ public abstract class SourcePanel : MonoBehaviour
 
         return returnedDisplay as T;
     }
-    public virtual T OpenWindow<T>() where T : SourceWindow
+    public virtual T OpenWindow<T>(params object[] data) where T : SourceWindow
     {
         SourceWindow returnedWindow = null;
 
         foreach (var sourceWindow in _windows)
         {
-            if (sourceWindow is T panel)
+            if (sourceWindow is T window)
             {
-                returnedWindow = panel;
+                returnedWindow = window;
             }
             else
             {
@@ -165,7 +162,7 @@ public abstract class SourcePanel : MonoBehaviour
             }
         }
 
-        returnedWindow.OnOpen();
+        returnedWindow.OnOpen(data);
 
         return returnedWindow as T;
     }

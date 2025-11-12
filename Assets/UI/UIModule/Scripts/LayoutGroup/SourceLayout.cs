@@ -31,7 +31,7 @@ public abstract class SourceLayout : MonoBehaviour
     {
         for (int i = 0; i < _slots.Length; i++)
         {
-            _slots[i].UpdateView();
+            _slots[i].UpdateView(null);
         }
     }
     public virtual void CloseIt<T>() where T : SourceLayout

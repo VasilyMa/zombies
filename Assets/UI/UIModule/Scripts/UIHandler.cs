@@ -11,6 +11,7 @@ public class UIHandler : MonoBehaviour
     private List<SourceLayout> _layouts = new();
     private List<SourceWindow> _windows = new();
     private List<SourceSlot> _slots = new();
+    private List<SourceBar> _bars = new();
 
     public void Init()
     {
@@ -19,6 +20,7 @@ public class UIHandler : MonoBehaviour
         _layouts = GetComponentsInChildren<SourceLayout>(true).ToList();
         _windows = GetComponentsInChildren<SourceWindow>(true).ToList();
         _slots = GetComponentsInChildren<SourceSlot>(true).ToList();
+        _bars = GetComponentsInChildren<SourceBar>(true).ToList();
         _canvases = new List<SourceCanvas>();
 
         var canveses = GetComponentsInChildren<SourceCanvas>(true);
@@ -38,6 +40,7 @@ public class UIHandler : MonoBehaviour
         InjectList(_layouts, data);
         InjectList(_windows, data);
         InjectList(_slots, data);
+        InjectList(_bars, data);
 
         foreach (var canvas in _canvases)
             canvas.OnInject();
@@ -49,6 +52,8 @@ public class UIHandler : MonoBehaviour
             window.OnInject();
         foreach (var slot in _slots)
             slot.OnInject();
+        foreach (var bar in _bars)
+            bar.OnInject();
     }
 
     public void Dispose()

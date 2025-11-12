@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68138fa16a9f324595a50b12c88a41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerEntityBase: {fileID: 0}
+  CharacterPlayer: {fileID: 5184722374348745260, guid: a8ed8004086c8604087d7e1bb2f7c792, type: 3}
+  _levelData: {fileID: 11400000, guid: e311d956aa4f4d44c8927069a6dc4466, type: 2}

@@ -10,6 +10,12 @@ public abstract class SourceBar : MonoBehaviour
 
         return this;
     }
+
+    public virtual void OnInject()
+    {
+
+    }
+
     public void OnClose()
     {
 
