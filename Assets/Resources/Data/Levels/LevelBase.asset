@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0a53faa63ff5e4f86ac58720b5f36d, type: 3}
   m_Name: LevelBase
   m_EditorClassIdentifier: 
-  SpawnInterval: 5
-  SpawnCount: 5
+  SpawnInterval: 1
+  SpawnCount: 1
   EnemyContainers:
   - StartTimeSeconds: 0
     Enemies:

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public abstract class EcsRunHandler
 {
     public EcsWorld World;
+    protected EcsSystems _turretSystems;
     protected EcsSystems _shootSystems;
     protected EcsSystems _takeSystems;
     protected EcsSystems _hitSystems;
@@ -26,6 +27,7 @@ public abstract class EcsRunHandler
         World = new EcsWorld();
         _initSystems = new EcsSystems(World, state);
         _commonSystems = new EcsSystems(World, state);
+        _turretSystems = new EcsSystems(World, state);
         _takeSystems = new EcsSystems(World, state);
         _hitSystems = new EcsSystems(World, state);
         _missileSystems = new EcsSystems(World, state);
@@ -38,6 +40,8 @@ public abstract class EcsRunHandler
         _initSystems
             .Add(new InitPlayerSystem())
             .Add(new InitLevelHandlerSystem())
+            .Add(new InitWallObjectSystem())
+            .Add(new InitTurretObjectSystem())
             .Add(new InitStartWeaponSystem())
             ;
 
@@ -68,19 +72,30 @@ public abstract class EcsRunHandler
             ;
 
         _shootSystems
+            .Add(new RunTurretRequestShootSystem())
             .Add(new RunRequestShootSystem())
+
+            .Add(new RunTurretResolveShootSystem())
             //Create missiles for weapon type
             .Add(new RunHandgunResolveShootSystem()) 
 
             //Composing missile systems
-            .Add(new RunWeaponSetDamageSystem())
-            .Add(new RunWeaponSetSpeedSystem())
+            .Add(new RunShootSetDamageSystem())
+            .Add(new RunShootSetSpeedSystem())
 
             //Complete shoot
             .Add(new RunCompleteShootSystem())
 
             .DelHere<MissileSetupEvent>()
             .DelHere<RequestShootEvent>()
+            ;
+
+        _turretSystems
+            .Add(new RunTurretAimSystem())
+            .Add(new RunTurretSetTargetSystem())
+            .Add(new RunTurretRotateToTargetSystem())
+
+            .DelHere<SetTargetEvent>()
             ;
 
         _commonSystems
@@ -94,8 +109,15 @@ public abstract class EcsRunHandler
 
             .Add(new RunInFiretickStateSystem())
 
+            .Add(new RunTurretBuildProcessSystem())
+            .Add(new RunTurretBuildCompleteSystem())
+
+            .Add(new RunWallBuildProcessSystem())
+            .Add(new RunWallBuildCompleteSystem())
+
             .DelHere<SpawnEvent>() 
             .DelHere<ReturnToPoolEvent>()
+            .DelHere<CompleteBuildEvent>()
             ;
 
 
@@ -103,6 +125,7 @@ public abstract class EcsRunHandler
             .Add(new RunUpdateHealthSystem())
 
             .Add(new RunDyingSystem())
+            .Add(new RunRewardSystem())
 
             .Add(new RunEnemyDeadSystem())
             .Add(new RunMissileDeadSystem())
@@ -127,6 +150,7 @@ public abstract class EcsRunHandler
             _takeSystems,
             _missileSystems,
             _shootSystems,
+            _turretSystems,
             _commonSystems,
             _combatSystems,
             _delSystems

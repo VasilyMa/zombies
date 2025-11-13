@@ -9,5 +9,7 @@ public class EnemyBase : ScriptableObject
     public float AttackSpeed;
     public float Health;
     public float Attack;
+    public int Reward;
+    public int Experience;
     public GameObject Prefab;
 }

@@ -1,6 +1,6 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di; 
-using Statement;
+using Statement; 
 
 namespace Client 
 {
@@ -22,6 +22,8 @@ namespace Client
                 {
                     _hitPool.Value.Add(hitEntity);
                 }
+
+                ListPool<int>.Release(resolveComp.HitEntities);
             }
         }
     }

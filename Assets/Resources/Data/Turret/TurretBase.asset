@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d3625b4582176347aaa943b9b3460ec, type: 3}
+  m_Name: TurretBase
+  m_EditorClassIdentifier: 
+  TurretName: 
+  Cost: 1
+  Health: 10
+  Damage: 1
+  Rapidfire: 1
+  Speed: 10
+  RotationSpeed: 60
+  ViewDistance: 10
+  Angle: 5
+  MissilePrefab: {fileID: 7630530472900125585, guid: 3c9ce093f17e70a4b93a1bb506d73a35, type: 3}
+  DPS: 1
+  MissileCount: 1

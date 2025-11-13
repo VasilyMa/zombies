@@ -79,6 +79,14 @@ namespace Statement
                 _ecsMap[localKey] = packed;
         }
 
+        public virtual void RemoveEntity(string localKey)
+        {
+            if (!string.IsNullOrEmpty(localKey) && _ecsMap.ContainsKey(localKey))
+            {
+                _ecsMap.Remove(localKey);
+            }
+        }
+
         public virtual bool TryGetEntity(string key, out EcsPackedEntity packedEntity)
         {
             packedEntity = default;

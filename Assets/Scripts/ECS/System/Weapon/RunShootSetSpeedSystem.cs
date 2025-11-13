@@ -4,7 +4,7 @@ using Statement;
 
 namespace Client
 {
-    sealed class RunWeaponSetSpeedSystem : IEcsRunSystem 
+    sealed class RunShootSetSpeedSystem : IEcsRunSystem 
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;

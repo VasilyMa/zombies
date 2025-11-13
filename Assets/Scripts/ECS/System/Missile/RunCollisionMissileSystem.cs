@@ -27,7 +27,7 @@ namespace Client
 
                 int capacity = collisionComp.TargetEntities.Length;
 
-                resolveComp.HitEntities = new List<int>(); 
+                resolveComp.HitEntities = ListPool<int>.Get(); 
 
                 for (global::System.Int32 i = 0; i < collisionComp.TargetEntities.Length; i++)
                 {

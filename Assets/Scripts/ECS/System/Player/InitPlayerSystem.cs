@@ -33,6 +33,9 @@ namespace Client
 
             // Добавляем всегда PlayerComponent и MovementComponent
             ref var playerComp = ref _playerPool.Value.Add(playerEntity);
+            playerComp.Experience = 0;
+            playerComp.Money = 10;
+
             ref var movementComp = ref _movementPool.Value.Add(playerEntity);
             movementComp.MoveSpeed = 5f;
             ref var healthComp = ref _healthPool.Value.Add(playerEntity);

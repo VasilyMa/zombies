@@ -19,6 +19,7 @@ namespace Client
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
         readonly EcsPoolInject<AnimateComponent> _animatePool = default;    
         readonly EcsPoolInject<EnemyComponent> _enemyPool = default;    
+        readonly EcsPoolInject<RewardComponent> _reardPool = default;    
 
         public void Run (IEcsSystems systems) 
         {
@@ -36,6 +37,7 @@ namespace Client
                 MovementComponent movementComp;
                 TransformComponent transformComp;
                 HealthComponent healthComp;
+                RewardComponent rewardComp;
 
                 // Попытка найти врага в пуле
                 foreach (var enemyEntity in _enemyFilter.Value)
@@ -50,9 +52,10 @@ namespace Client
                         movementComp = _movementPool.Value.Get(enemyEntity);
                         transformComp = _transformPool.Value.Get(enemyEntity);
                         healthComp = _healthPool.Value.Get(enemyEntity);
+                        rewardComp = _reardPool.Value.Get(enemyEntity);
 
                         // Инициализация параметров врага
-                        InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, enemyBase, spawnComp);
+                        InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, ref rewardComp, enemyBase, spawnComp);
 
                         // Активация объекта
                         transformComp.Transform.gameObject.name = entityKey;
@@ -84,9 +87,10 @@ namespace Client
                 movementComp = new MovementComponent();
                 transformComp = new TransformComponent { Transform = instance.transform };
                 healthComp = new HealthComponent();
+                rewardComp = new RewardComponent();
 
                 // Инициализация параметров врага
-                InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, enemyBase, spawnComp);
+                InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, ref rewardComp, enemyBase, spawnComp);
 
                 // Добавление компонентов в ECS
                 _animatePool.Value.Add(newEntityEnemy) = animateComp;
@@ -115,6 +119,7 @@ namespace Client
             ref MovementComponent movementComp,
             ref TransformComponent transformComp,
             ref HealthComponent healthComp,
+            ref RewardComponent rewardComp,
             EnemyBase enemyBase,
             SpawnEvent spawnComp)
         {
@@ -129,6 +134,8 @@ namespace Client
             float attackDamage = enemyBase.Attack + (enemyBase.Attack * amplifier);
             attackComp.Damage = attackDamage;
 
+            rewardComp.Reward = enemyBase.Reward;
+            rewardComp.Experience = enemyBase.Experience;
             // transformComp.Transform.position задаётся отдельно при активации/создании
         }
     }

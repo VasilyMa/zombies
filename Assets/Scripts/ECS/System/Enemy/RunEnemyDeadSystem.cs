@@ -12,6 +12,7 @@ namespace Client
         readonly EcsPoolInject<PoolComponent> _pool = default;
         readonly EcsPoolInject<EnemyComponent> _enemyPool = default;
 
+
         public void Run (IEcsSystems systems) 
         {
             foreach (var entity in _filter.Value)
@@ -20,6 +21,8 @@ namespace Client
                 ref var enemyComp = ref _enemyPool.Value.Get(entity);
 
                 poolComp.KeyName = enemyComp.EnemyName;
+
+                _state.Value.RemoveEntity(entity.ToString());
             }
         }
     }
