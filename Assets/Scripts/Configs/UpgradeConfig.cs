@@ -1,7 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UpgradeConfig", menuName = "Scriptable Objects/UpgradeConfig")]
-public class UpgradeConfig : ScriptableObject
+[CreateAssetMenu(fileName = "UpgradeConfig", menuName = "Config/UpgradeConfig")]
+public class UpgradeConfig : Config
 {
-    
+    public List<UpgradeBase> Upgrades;
+
+    public override IEnumerator Init()
+    {
+        yield return null;
+    }
 }
