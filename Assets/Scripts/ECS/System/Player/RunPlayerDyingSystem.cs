@@ -19,8 +19,7 @@ namespace Client
             {
                 _deadPool.Value.Add(entity);
 
-                ref var transformComp = ref _transformmPool.Value.Get(entity);
-                transformComp.Transform.gameObject.SetActive(false); 
+                ref var animateComp = ref _animatePool.Value.Get(entity);
             }
         }
     }
