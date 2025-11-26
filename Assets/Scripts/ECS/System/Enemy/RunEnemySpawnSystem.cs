@@ -1,8 +1,7 @@
 using Leopotam.EcsLite; 
 using Leopotam.EcsLite.Di;
 using Statement;
-using UnityEngine;
-
+using UnityEngine; 
 namespace Client 
 {
     sealed class RunEnemySpawnSystem : IEcsRunSystem 
@@ -10,7 +9,6 @@ namespace Client
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
         readonly EcsFilterInject<Inc<SpawnEvent>> _filter = default;
-        readonly EcsFilterInject<Inc<EnemyComponent, HealthComponent, AttackComponent, MovementComponent, TransformComponent, AnimateComponent, PoolComponent>> _enemyFilter = default;    
         readonly EcsPoolInject<SpawnEvent> _spawnPool = default; 
         readonly EcsPoolInject<PoolComponent> _pool = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
@@ -18,95 +16,57 @@ namespace Client
         readonly EcsPoolInject<MovementComponent> _movementPool = default;
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
         readonly EcsPoolInject<AnimateComponent> _animatePool = default;    
-        readonly EcsPoolInject<EnemyComponent> _enemyPool = default;    
-        readonly EcsPoolInject<RewardComponent> _reardPool = default;    
+        readonly EcsPoolInject<RewardComponent> _reardPool = default;
+        readonly EcsPoolInject<DeadComponent> _deadPool = default;
+        readonly EcsPoolInject<AnimationSwitchStateEvent> _switchPool = default;
+        readonly EcsPoolInject<ExplosionComponent> _explosionPool = default;
+        readonly EcsPoolInject<CombatComponent> _combatPool = default;
 
         public void Run (IEcsSystems systems) 
         {
             foreach (var entity in _filter.Value)
             {
                 string entityKey = string.Empty;
-
+                int enemyEntity = -1;
                 ref var spawnComp = ref _spawnPool.Value.Get(entity);
-                var enemyBase = spawnComp.EnemyBase;
-                bool isSpawned = false;
-
-                // Буфер для компонентов
-                AnimateComponent animateComp;
-                AttackComponent attackComp;
-                MovementComponent movementComp;
-                TransformComponent transformComp;
-                HealthComponent healthComp;
-                RewardComponent rewardComp;
-
-                // Попытка найти врага в пуле
-                foreach (var enemyEntity in _enemyFilter.Value)
+                var enemyBase = spawnComp.EnemyBase; 
+                 
+                if (EntityPoolService.TryGet(enemyBase.EnemyName, out enemyEntity))
                 {
-                    ref var poolComp = ref _pool.Value.Get(enemyEntity);
+                    entityKey = enemyEntity.ToString();
+                    ref var animateComp = ref _animatePool.Value.Get(enemyEntity);
+                    ref var attackComp = ref _attackPool.Value.Get(enemyEntity);
+                    ref var movementComp = ref _movementPool.Value.Get(enemyEntity);
+                    ref var transformComp = ref _transformPool.Value.Get(enemyEntity);
+                    ref var healthComp = ref _healthPool.Value.Get(enemyEntity);
+                    ref var rewardComp = ref _reardPool.Value.Get(enemyEntity);
 
-                    if (poolComp.KeyName == enemyBase.EnemyName)
-                    {
-                        entityKey = enemyEntity.ToString();
-                        animateComp = _animatePool.Value.Get(enemyEntity);
-                        attackComp = _attackPool.Value.Get(enemyEntity);
-                        movementComp = _movementPool.Value.Get(enemyEntity);
-                        transformComp = _transformPool.Value.Get(enemyEntity);
-                        healthComp = _healthPool.Value.Get(enemyEntity);
-                        rewardComp = _reardPool.Value.Get(enemyEntity);
+                    // Инициализация параметров врага
+                    InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, ref rewardComp, enemyBase, spawnComp);
 
-                        // Инициализация параметров врага
-                        InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, ref rewardComp, enemyBase, spawnComp);
+                    // Активация объекта
+                    transformComp.Transform.gameObject.name = entityKey;
+                    transformComp.Transform.position = spawnComp.SpawnPoint;
+                    transformComp.Transform.rotation = new Quaternion(0, 180, 0, 0);
+                    transformComp.Transform.gameObject.SetActive(true);
 
-                        // Активация объекта
-                        transformComp.Transform.gameObject.name = entityKey;
-                        transformComp.Transform.position = spawnComp.SpawnPoint.position;
-                        transformComp.Transform.rotation = new Quaternion(0, 180, 0, 0);
-                        transformComp.Transform.gameObject.SetActive(true);
-
-                        _pool.Value.Del(enemyEntity); 
-                        isSpawned = true;
-
-                        _state.Value.AddEntity(entityKey, enemyEntity);
-                        break; 
+                    if (_explosionPool.Value.Has(entity))
+                    { 
+                        ref var explosionComp = ref _explosionPool.Value.Get(entity);
+                        explosionComp.Damage = attackComp.Damage * explosionComp.Multiplier; 
                     }
+
+                    if (!_switchPool.Value.Has(enemyEntity)) _switchPool.Value.Add(enemyEntity).Animation = AnimationSwitchStateEvent.AnimationState.run;
+                    _state.Value.AddEntity(entityKey, enemyEntity); 
+                    _deadPool.Value.Del(enemyEntity);
                 }
-
-                if (isSpawned) continue;
-
-                // Если враг не найден в пуле — создаём нового
-                var newEntityEnemy = _world.Value.NewEntity();
-
-                entityKey = newEntityEnemy.ToString();
-
-                var instance = GameObject.Instantiate(enemyBase.Prefab, spawnComp.SpawnPoint.position, Quaternion.identity);
-
-                instance.gameObject.name = entityKey;
-
-                animateComp = new AnimateComponent();
-                attackComp = new AttackComponent();
-                movementComp = new MovementComponent();
-                transformComp = new TransformComponent { Transform = instance.transform };
-                healthComp = new HealthComponent();
-                rewardComp = new RewardComponent();
-
-                // Инициализация параметров врага
-                InitEnemyComponents(ref animateComp, ref attackComp, ref movementComp, ref transformComp, ref healthComp, ref rewardComp, enemyBase, spawnComp);
-
-                // Добавление компонентов в ECS
-                _animatePool.Value.Add(newEntityEnemy) = animateComp;
-                _attackPool.Value.Add(newEntityEnemy) = attackComp;
-                _movementPool.Value.Add(newEntityEnemy) = movementComp;
-                _transformPool.Value.Add(newEntityEnemy) = transformComp;
-                _healthPool.Value.Add(newEntityEnemy) = healthComp;
-                
-                ref var enemyComp = ref _enemyPool.Value.Add(newEntityEnemy);
-                enemyComp.EnemyName = enemyBase.EnemyName;
-
-                transformComp.Transform.position = spawnComp.SpawnPoint.position;
-                transformComp.Transform.rotation = new Quaternion(0, 180, 0, 0);
-                transformComp.Transform.gameObject.SetActive(true);
-
-                _state.Value.AddEntity(entityKey, newEntityEnemy);
+                else
+                {
+                    // Если враг не найден в пуле — создаём нового
+                    enemyEntity = enemyBase.Init(_world.Value, _state.Value, ref spawnComp);
+                    _combatPool.Value.Add(enemyEntity).Delay = 0.01f;
+                    if (!_switchPool.Value.Has(enemyEntity)) _switchPool.Value.Add(enemyEntity).Animation = AnimationSwitchStateEvent.AnimationState.run;
+                }  
             }
         }
 
@@ -129,14 +89,13 @@ namespace Client
             healthComp.Init(health);
 
             float moveSpeed = enemyBase.MoveSpeed + (enemyBase.MoveSpeed * amplifier);
-            movementComp.MoveSpeed = moveSpeed;
+            movementComp.Init(moveSpeed);
 
             float attackDamage = enemyBase.Attack + (enemyBase.Attack * amplifier);
             attackComp.Damage = attackDamage;
 
             rewardComp.Reward = enemyBase.Reward;
-            rewardComp.Experience = enemyBase.Experience;
-            // transformComp.Transform.position задаётся отдельно при активации/создании
+            rewardComp.Experience = enemyBase.Experience;  
         }
     }
 }

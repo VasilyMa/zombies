@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace Client 
 {
     struct MissileSetupEvent 
     {
-        public int MissileEntity;
+        public List<int> MissileEntity;
     }
 }

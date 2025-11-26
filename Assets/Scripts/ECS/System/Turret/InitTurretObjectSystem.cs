@@ -18,6 +18,8 @@ namespace Client
         readonly EcsPoolInject<SpreadComponent> _spreadPool = default;
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
         readonly EcsPoolInject<SpeedComponent> _speedPool = default;
+        readonly EcsPoolInject<EngineComponent> _enginePool = default;
+        readonly EcsPoolInject<HealthComponent> _healthPool = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -68,7 +70,19 @@ namespace Client
         {
             if (!_buildProcessPool.Value.Has(entity))
             {
-                _buildProcessPool.Value.Add(entity).InitialDelay = 1f;
+                if (_state.Value.TryGetEntity("player", out int playerEntity))
+                {
+                    ref var engineComp = ref _enginePool.Value.Get(playerEntity);
+                    ref var healthComp = ref _healthPool.Value.Get(playerEntity);
+                    ref var buildProcess = ref _buildProcessPool.Value.Add(entity);
+
+                    buildProcess.InitialDelay = Mathf.Clamp(engineComp.Delay - (engineComp.Delay * engineComp.BuildModifier), 0.1f, 2f);
+
+                    float baseHealth = healthComp.MaxValue * engineComp.Health;
+                    float finalHealth = baseHealth * (1f + engineComp.HealthModifier);
+
+                    buildProcess.Health = finalHealth;
+                } 
             }
         }
 

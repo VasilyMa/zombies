@@ -1,11 +1,12 @@
 using Leopotam.EcsLite;
 using Statement;
+using TMPro;
 using UnityEngine;
 
 public class WeaponSlot : SourceSlot
 { 
     private WeaponBase _data;
-
+    [SerializeField] private TextMeshProUGUI _title;
     [UIInject] protected EcsWorld _world;
     [UIInject] protected BattleState _state;
     public override void OnActive()
@@ -33,7 +34,7 @@ public class WeaponSlot : SourceSlot
         if (d is WeaponBase data)
         {
             _data = data;
-
+            _title.text = _data.Name;
             gameObject.SetActive(true);
         }
         else

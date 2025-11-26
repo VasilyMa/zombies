@@ -9,21 +9,19 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<MissileCollisionEvent, TransformComponent, MissileMotionState>> _filter = default;
+        readonly EcsFilterInject<Inc<MissileCollisionEvent, TransformComponent, MissileMotionState>, Exc<SniperBulletComponent, CleanUpEvent>> _filter = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         readonly EcsPoolInject<MissileCollisionEvent> _missileCollisionPool = default;
-        readonly EcsPoolInject<ResolveMissileEvent> _resolveMissilePool = default;
-        readonly EcsPoolInject<ReturnToPoolEvent> _returnToPool = default;
-        readonly EcsPoolInject<DieEvent> _diePool = default;
+        readonly EcsPoolInject<ResolveMissileEvent> _resolveMissilePool = default; 
         readonly EcsPoolInject<HitEvent> _hitPool = default;
-        readonly EcsPoolInject<MissileMotionState> _motionPool = default;
+        readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default;    
         public void Run (IEcsSystems systems) 
         {
             foreach (var entity in _filter.Value)
             {
                 ref var collisionComp = ref _missileCollisionPool.Value.Get(entity);
-                ref var resolveComp = ref _resolveMissilePool.Value.Add(entity);
                 ref var transformComp = ref _transformPool.Value.Get(entity);
+                ref var resolveComp = ref _resolveMissilePool.Value.Add(entity);
 
                 int capacity = collisionComp.TargetEntities.Length;
 
@@ -43,10 +41,7 @@ namespace Client
 
                 transformComp.Transform.gameObject.SetActive(false);
 
-                _diePool.Value.Add(entity);
-                _returnToPool.Value.Add(entity);
-
-                _motionPool.Value.Del(entity);
+                _cleanUpPool.Value.Add(entity);
             }
         }
     }

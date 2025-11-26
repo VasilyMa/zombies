@@ -23,7 +23,9 @@ namespace Client
             levelComp.LevelData = levelData;
             levelComp.MatchDuration = levelData.MaxMatchDuration;
             levelComp.ElapsedTime = 0f;
-            levelComp.SpawnTimer = levelData.GetCurrentSpawnInterval(0f); 
+            levelComp.SpawnInterval = levelData.IntervalSpawn;
+            levelComp.SpawnCount = levelData.CountSpawn;
+            levelComp.SpawnTimer = levelData.GetCurrentSpawnInterval(0f, levelData.IntervalSpawn); 
 
             var spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
 

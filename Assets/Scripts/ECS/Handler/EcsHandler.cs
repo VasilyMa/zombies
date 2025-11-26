@@ -4,18 +4,22 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using Statement;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class EcsRunHandler
 {
     public EcsWorld World;
+    protected EcsSystems _effectSystems;
+    protected EcsSystems _upgradeSystems;
+    protected EcsSystems _animationSystems;
     protected EcsSystems _turretSystems;
-    protected EcsSystems _shootSystems;
-    protected EcsSystems _takeSystems;
+    protected EcsSystems _shootSystems; 
     protected EcsSystems _hitSystems;
     protected EcsSystems _missileSystems;
     protected EcsSystems _commonSystems;
     protected EcsSystems _combatSystems;
     protected EcsSystems _initSystems;
+    protected EcsSystems _cleanUpSystems;
     protected EcsSystems _delSystems;
 
     protected EcsData _data;
@@ -26,18 +30,22 @@ public abstract class EcsRunHandler
     {
         World = new EcsWorld();
         _initSystems = new EcsSystems(World, state);
+        _upgradeSystems = new EcsSystems(World, state);
+        _effectSystems = new EcsSystems(World, state);
+        _animationSystems = new EcsSystems(World, state);
         _commonSystems = new EcsSystems(World, state);
-        _turretSystems = new EcsSystems(World, state);
-        _takeSystems = new EcsSystems(World, state);
+        _turretSystems = new EcsSystems(World, state); 
         _hitSystems = new EcsSystems(World, state);
         _missileSystems = new EcsSystems(World, state);
         _combatSystems = new EcsSystems(World, state);
         _shootSystems = new EcsSystems(World, state);
+        _cleanUpSystems  = new EcsSystems(World, state);
         _delSystems = new EcsSystems(World, state);
 
         _data = new EcsData();
 
         _initSystems
+            .Add(new InitBattleFieldSystem())
             .Add(new InitPlayerSystem())
             .Add(new InitLevelHandlerSystem())
             .Add(new InitWallObjectSystem())
@@ -45,43 +53,94 @@ public abstract class EcsRunHandler
             .Add(new InitStartWeaponSystem())
             ;
 
+        _upgradeSystems
+            .Add(new RunUpgradeRecoverySystem())
+            .Add(new RunUpgradeDoubleShotSystem())
+            .Add(new RunUpgradeFractionShotSystem())
+            .Add(new RunUpgradeStatSystem())
+            .Add(new RunUpgradeFlameSystem())
+            .Add(new RunUpgradeFreezeSystem())
+            .Add(new RunUpgradeSplitShotSystem())
+
+            .DelHere<UpgradeStatEvent>()
+            .DelHere<UpgradeFlameEvent>()
+            .DelHere<UpgradeDoubleShotEvent>()
+            .DelHere<UpgradeFreezeShotEvent>()
+            .DelHere<UpgradeRecoveryEvent>()
+            .DelHere<UpgradeFractionShotEvent>()
+            .DelHere<UpgradeSplitShotEvent>()
+            ;
+
         _hitSystems
             .Add(new RunDamageHitSystem())
+            .Add(new RunFlameHitSystem())
+            .Add(new RunFreezeHitSystem())
+            .Add(new RunSlowHitSystem())
 
             .Add(new RunResolveHitSystem())
             ;
 
-        _takeSystems
-            .Add(new RunTakeDamageSystem())
-            
-            .DelHere<TakeDamageEvent>()
+        _effectSystems
+            .Add(new RunBurnEffectSystem())
+            .Add(new RunChillEffectSystem())
+            .Add(new RunSlowEffectSystem())
             ;
 
+
         _missileSystems
-            .Add(new RunInvokeMissileSystem())
+            .Add(new RunInvokeMissileSystem()) 
+            .Add(new RunInvokeBalisticSystem())
+            .DelHere<CompleteShootEvent>()
+
+            .Add(new RunLifetimeMissileSystem())
+
+            .Add(new RunMotionAbilityBlowSystem())
             .Add(new RunMotionMissileSystem())
+            .Add(new RunMotionBalisticSystem())
             .Add(new RunDetectionMissileSystem())
             .Add(new RunCollisionMissileSystem())
+            .Add(new RunCollisionSniperMissileSystem()) 
 
+            .Add(new RunResolveMissileSplitSystem())
             .Add(new RunResolveMissileDamageSystem())
+            .Add(new RunResolveMissileNearSystem())
+            .Add(new RunResolveMissileFractionSystem())
+            .Add(new RunResolveMissileFlameSystem())
+            .Add(new RunResolveMissileFreezeSystem())
+            .Add(new RunResolveMissileSlowSystem())
+            .Add(new RunResolveMissileExplosionEffectSystem())
+            .Add(new RunResolveMissileHitEffectSystem())
 
             .Add(new RunResolveMissileSystem())
-
+             
             .DelHere<ResolveMissileEvent>()
-            .DelHere<CompleteShootEvent>()
+            .DelHere<MissileCollisionEvent>()
             ;
 
         _shootSystems
             .Add(new RunTurretRequestShootSystem())
             .Add(new RunRequestShootSystem())
 
+            .Add(new RunRequestSetDoubleSystem())
+
             .Add(new RunTurretResolveShootSystem())
             //Create missiles for weapon type
             .Add(new RunHandgunResolveShootSystem()) 
+            .Add(new RunShotgunResolveShootSystem())
+            .Add(new RunSniperRifleResolveShootSystem())
+            .Add(new RunAutorifleResolveShootSystem())
+            .Add(new RunSubmachineResolveShootSystem())
+            .Add(new RunGrenadeResolveShootSystem())
 
             //Composing missile systems
-            .Add(new RunShootSetDamageSystem())
+            .Add(new RunShootSetSplitSystem())
+            .Add(new RunShootSetFractionSystem())
             .Add(new RunShootSetSpeedSystem())
+            .Add(new RunShootSetFlameSystem())
+            .Add(new RunShootSetFreezeSystem())
+            .Add(new RunShootSetDamageSystem()) 
+            .Add(new RunShootSetLifeSystem())
+            .Add(new RunShootSetHitEffectSystem())
 
             //Complete shoot
             .Add(new RunCompleteShootSystem())
@@ -104,6 +163,10 @@ public abstract class EcsRunHandler
             .Add(new RunLevelHandlerSystem())
             .Add(new RunPlayerMovementSystem())
             .Add(new RunEnemyMovementSystem())
+            .Add(new RunFastMovementSystem())
+            .Add(new RunCombatMovementSystem())
+
+            .Add(new RunPlayerRecoverySystem())
 
             .Add(new RunEnemySpawnSystem())
 
@@ -115,22 +178,49 @@ public abstract class EcsRunHandler
             .Add(new RunWallBuildProcessSystem())
             .Add(new RunWallBuildCompleteSystem())
 
+            .Add(new RunPlayerLevelUpdateSystem())
+            .Add(new RunPlayerLevelUpSystem())
+             
+            .Add(new RunVFXLifetimeSystem())
+
+            .DelHere<PlayerExperienceEvent>() 
             .DelHere<SpawnEvent>() 
             .DelHere<ReturnToPoolEvent>()
             .DelHere<CompleteBuildEvent>()
             ;
 
 
-        _combatSystems
+        _combatSystems 
+            .Add(new RunAbilityEnemyCastSystem())
+            .Add(new RunAbilityEnemyCastingSystem())
+            .Add(new RunAbilityEnemyResolveSystem())
+            .Add(new RunAbilityEnemyCooldownSystem())
+
+            .Add(new RunAttackEnemyCastSystem())
+            .Add(new RunAttackEnemyCastingSystem())
+            .Add(new RunAttackResolveSystem())
+            .Add(new RunCombatSystem())
+            .Add(new RunActionSystem())
+
+            .Add(new RunDamageResolveSystem())
             .Add(new RunUpdateHealthSystem())
 
-            .Add(new RunDyingSystem())
+            .Add(new RunPlayerDyingSystem())
+
+            .Add(new RunDyingSystem())  
+            .Add(new RunAfterDieExplosionSystem())
             .Add(new RunRewardSystem())
 
-            .Add(new RunEnemyDeadSystem())
-            .Add(new RunMissileDeadSystem())
-
+            .DelHere<ResolveAttackEvent>()
+            .DelHere<ResolveAbilityEvent>()
+            .DelHere<HealthUpdateEvent>()
             .DelHere<DieEvent>()
+            ;
+
+        _animationSystems
+            .Add(new RunAnimationSwitchSystem())
+
+            .DelHere<AnimationSwitchStateEvent>()
             ;
 
         _delSystems
@@ -140,19 +230,50 @@ public abstract class EcsRunHandler
             .DelHere<DisposeEvent>()
             ;
 
+        _cleanUpSystems 
+            .Add(new RunRecycleSystem<LifetimeComponent>())
+            .Add(new RunRecycleSystem<HitAttachComponent>())
+            .Add(new RunRecycleSystem<InAttackState>())
+            .Add(new RunRecycleSystem<InCombatState>())
+            .Add(new RunRecycleSystem<InActionState>())
+            .Add(new RunRecycleSystem<AbilityCastingState>())
+            .Add(new RunRecycleSystem<CooldownComponent>())
+            .Add(new RunRecycleSystem<ChillEffectState>())
+            .Add(new RunRecycleSystem<BurnEffectState>())
+            .Add(new RunRecycleSystem<SlowEffectState>())
+            .Add(new RunRecycleSystem<DamageComponent>())
+            .Add(new RunRecycleSystem<SniperBulletComponent>())
+            .Add(new RunRecycleSystem<VelocityComponent>())
+            .Add(new RunRecycleSystem<FractionAttachComponent>())
+            .Add(new RunRecycleSystem<SplitAttachComponent>())
+            .Add(new RunRecycleSystem<SlowAttachComponent>())
+            .Add(new RunRecycleSystem<NearEffectComponent>())
+            .Add(new RunRecycleSystem<FreezeAttachComponent>())
+            .Add(new RunRecycleSystem<FlameAttachComponent>())
+            .Add(new RunRecycleSystem<ExplodeEffectComponent>())
+            .Add(new RunRecycleSystem<MissileMotionState>())
+            .Add(new RunRecycleSystem<InFiretickState>())
+
+            .Add(new RunRecyclePoolSystem())
+            .DelHere<CleanUpEvent>()
+            ;
+
 #if UNITY_EDITOR
         _commonSystems.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
 #endif
         _allSystems = new List<EcsSystems>()
         {
             _initSystems,
-            _hitSystems,
-            _takeSystems,
+            _upgradeSystems,
             _missileSystems,
+            _hitSystems, 
+            _effectSystems,
             _shootSystems,
             _turretSystems,
             _commonSystems,
             _combatSystems,
+            _animationSystems,
+            _cleanUpSystems,
             _delSystems
         };
     }

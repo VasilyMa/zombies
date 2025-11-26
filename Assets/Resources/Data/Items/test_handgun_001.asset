@@ -13,21 +13,22 @@ MonoBehaviour:
   m_Name: test_handgun_001
   m_EditorClassIdentifier: 
   Name: Handgun
+  HitPrefab: {fileID: 195742, guid: 46d6a2559984eee4dbe955291bbcf5c5, type: 3}
   Icon: {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
-  MissilePrefab: {fileID: 7630530472900125585, guid: 3c9ce093f17e70a4b93a1bb506d73a35, type: 3}
+  MissilePrefab: {fileID: 193226, guid: 231d8adfa790ae248bf6fa1969fe7a41, type: 3}
   MuzzlePrefab: {fileID: 0}
   Levels:
   - Description: 
-    DPS: 5
-    DamageValue: 5
+    DPS: 2
+    DamageValue: 2
     RapidFireValue: 1
     Range: 100
     MissileSpeedVelocity: 10
     MissileCount: 1
     AngleOffset: 10
   - Description: 
-    DPS: 200
-    DamageValue: 100
+    DPS: 8
+    DamageValue: 4
     RapidFireValue: 0.5
     Range: 100
     MissileSpeedVelocity: 10

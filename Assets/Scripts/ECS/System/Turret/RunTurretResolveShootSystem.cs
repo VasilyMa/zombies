@@ -25,30 +25,21 @@ namespace Client
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filterTurrets.Value)
-            {
-                bool isShoot = false;
-
+            { 
                 ref var turretComp = ref _turretPool.Value.Get(entity);
                 ref var spreadComp = ref _spreadPool.Value.Get(entity);
 
                 int missileEntity = -1;
 
-                // --- Пытаемся взять снаряд из пула ---
-                foreach (var pooledMissileEntity in _filterMissile.Value)
-                {
-                    _pool.Value.Del(pooledMissileEntity);
-                    missileEntity = pooledMissileEntity;
-
+                if (EntityPoolService.TryGet(turretComp.MissilePrefab.name, out missileEntity))
+                { 
                     ref var transformComp = ref _transformPool.Value.Get(missileEntity);
                     SetTransform(ref transformComp, ref turretComp, ref spreadComp);
-                    isShoot = true;
-                    break;
                 }
-
-                // --- Если не нашли в пуле — создаём новый ---
-                if (!isShoot)
+                else
                 {
                     missileEntity = _world.Value.NewEntity();
+                    _pool.Value.Add(missileEntity).KeyName = turretComp.MissilePrefab.name;
                     var missileInstance = GameObject.Instantiate(turretComp.MissilePrefab, Vector3.zero, Quaternion.identity);
 
                     ref var missileComp = ref _missilePool.Value.Add(missileEntity);
@@ -57,15 +48,17 @@ namespace Client
                     ref var transformComp = ref _transformPool.Value.Add(missileEntity);
                     transformComp.Transform = missileInstance.transform;
 
-                    SetTransform(ref transformComp, ref turretComp, ref spreadComp);
-                }
+                    SetTransform(ref transformComp, ref turretComp, ref spreadComp); 
+                } 
 
                 // --- Регистрируем событие настройки ---
-                _setupPool.Value.Add(entity).MissileEntity = missileEntity;
+                ref var setUpComp = ref _setupPool.Value.Add(entity);
+                setUpComp.MissileEntity = ListPool<int>.Get();
+                setUpComp.MissileEntity.Add(missileEntity);
 
                 // --- Добавляем фаертик ---
                 ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
-                _fireTickPool.Value.Add(entity).RemainingTime = rapidFireComp.RapidfireSpeed;
+                _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
             }
         }
 

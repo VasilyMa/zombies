@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87efea7a38fa14743b59cad301921c20, type: 3}
+  m_Name: FatBase
+  m_EditorClassIdentifier: 
+  EnemyName: fat
+  Weight: 0.1
+  MoveSpeed: 0.7
+  AttackSpeed: 1
+  Health: 100
+  Attack: 1
+  Delay: 1
+  Range: 2
+  Reward: 1
+  Experience: 1
+  Prefab: {fileID: 5108654826079997753, guid: 4bd12cf8435305946a5d07dbc23b6c47, type: 3}
+  ExplosionPrefab: {fileID: 196474, guid: f72b80f986e177c4f8184dcefaff8d62, type: 3}
+  DamageValueExplosion: 3
+  RadiusExplosion: 2

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FatZombie
+  m_Controller: {fileID: 9100000, guid: 2e988a60c597f21468aee640e5f8445d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -1452275646898683282, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: -6216663953027236974, guid: e84e9350568e9da41bd605c24a06cc97, type: 3}
+  - m_OriginalClip: {fileID: 8940294551909030576, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: -6752077694844382900, guid: e84e9350568e9da41bd605c24a06cc97, type: 3}
+  - m_OriginalClip: {fileID: 4932999439571615726, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: -5909994650138818401, guid: e84e9350568e9da41bd605c24a06cc97, type: 3}

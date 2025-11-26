@@ -4,6 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelBase", menuName = "Levels/LevelBase")]
 public class LevelBase : ScriptableObject
 {
+    [Header("Визуал")]
+    public string Name;
+    public string Description;
+    public Sprite Icon;
+    public GameObject LevelPrefabView;
+    public int Number;
+
     [SerializeField][Header("Основные параметры")]
     private float SpawnInterval = 2f;
     [SerializeField]
@@ -34,23 +41,26 @@ public class LevelBase : ScriptableObject
     [Tooltip("Кривая усиления врагов (0 - старт, 1 - конец матча). Значение умножается на параметры врага.")]
     private AnimationCurve EnemyPowerUpCurve = AnimationCurve.Linear(0, 1, 1, 2);
 
+    public float IntervalSpawn => SpawnInterval;
+    public int CountSpawn => SpawnCount;
+
     /// <summary>
     /// Получить интервал спавна на текущий момент матча (timeNormalized: 0..1)
     /// </summary>
-    public float GetCurrentSpawnInterval(float timeNormalized)
+    public float GetCurrentSpawnInterval(float timeNormalized, float spawnInterval)
     {
         float curveValue = SpawnIntervalCurve.Evaluate(timeNormalized);
-        return SpawnInterval * curveValue;
+        return spawnInterval * curveValue;
     }
 
     /// <summary>
     /// Получить количество врагов за спавн на текущий момент матча (timeNormalized: 0..1)
     /// </summary>
-    public int GetCurrentEnemiesPerSpawn(float timeNormalized)
+    public int GetCurrentEnemiesPerSpawn(float timeNormalized, int spawnValue)
     {
         // Кривая задаёт коэффициент (0..1), который масштабирует максимальное количество врагов
         float curveValue = Mathf.Clamp01(EnemiesPerSpawnCurve.Evaluate(timeNormalized));
-        int result = Mathf.RoundToInt(SpawnCount * curveValue);
+        int result = Mathf.RoundToInt(spawnValue * curveValue);
         return Mathf.Max(1, result);
     }
 

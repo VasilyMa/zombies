@@ -25,9 +25,9 @@ namespace Client
 
                 if (levelComp.SpawnTimer <= 0)
                 {
-                    levelComp.SpawnTimer = levelComp.LevelData.GetCurrentSpawnInterval(levelComp.ElapsedTime / levelComp.MatchDuration);
+                    levelComp.SpawnTimer = levelComp.LevelData.GetCurrentSpawnInterval(levelComp.ElapsedTime / levelComp.MatchDuration, levelComp.SpawnInterval);
 
-                    int countSpawn = levelComp.LevelData.GetCurrentEnemiesPerSpawn(levelComp.ElapsedTime / levelComp.MatchDuration);
+                    int countSpawn = levelComp.LevelData.GetCurrentEnemiesPerSpawn(levelComp.ElapsedTime / levelComp.MatchDuration, levelComp.SpawnCount);
 
                     float amplifier = levelComp.LevelData.GetCurrentEnemyPowerUp(levelComp.ElapsedTime / levelComp.MatchDuration);
 
@@ -38,7 +38,7 @@ namespace Client
                         ref var spawnComp = ref _spawnPool.Value.Add(_world.Value.NewEntity());
                         spawnComp.EnemyBase = levelComp.LevelData.GetCurrentEnemyContainer(currentTime).GetRandomEnemy(); 
                         spawnComp.Amplifier = amplifier;
-                        spawnComp.SpawnPoint = levelComp.SpawnPoints[Random.Range(0, levelComp.SpawnPoints.Length)];
+                        spawnComp.SpawnPoint = levelComp.SpawnPoints[Random.Range(0, levelComp.SpawnPoints.Length)].position;
                     } 
                 }
             }

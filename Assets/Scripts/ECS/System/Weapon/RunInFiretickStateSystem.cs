@@ -11,6 +11,7 @@ namespace Client
         readonly EcsSharedInject<BattleState> _state = default;
         readonly EcsFilterInject<Inc<InFiretickState>> _filter = default;
         readonly EcsPoolInject<InFiretickState> _statePool = default;
+        readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default;
 
         public void Run (IEcsSystems systems) 
         {
@@ -21,7 +22,7 @@ namespace Client
 
                 if (firetickComp.RemainingTime < 0)
                 {
-                    _statePool.Value.Del(entity);
+                    _cleanUpPool.Value.Add(entity);
                 }
             }
         }

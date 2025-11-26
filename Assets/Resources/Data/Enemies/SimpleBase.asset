@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664e6d77550e13a47847aaaa32c44c85, type: 3}
+  m_Name: SimpleBase
+  m_EditorClassIdentifier: 
+  EnemyName: simple
+  Weight: 0.5
+  MoveSpeed: 0.4
+  AttackSpeed: 2
+  Health: 2
+  Attack: 2
+  Delay: 1
+  Range: 1
+  Reward: 1
+  Experience: 1
+  Prefab: {fileID: 6825773764098123286, guid: b5fdc2b79e52920499d42919e261cdfb, type: 3}

@@ -20,53 +20,52 @@ namespace Client
         readonly EcsPoolInject<WeaponComponent> _weaponPool = default;
         readonly EcsPoolInject<SpreadComponent> _spreadPool = default;
         readonly EcsPoolInject<MissileComponent> _missilePool = default;
+        readonly EcsPoolInject<RequestShootEvent> _requestPool = default;
+
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filterWeapon.Value)
             {
-                bool isShoot = false;
-
+                ref var requestComp = ref _requestPool.Value.Get(entity);
                 ref var weaponComp = ref _weaponPool.Value.Get(entity);
                 ref var spreadComp = ref _spreadPool.Value.Get(entity);
+                ref var setupComp = ref _setupPool.Value.Add(entity);
 
-                int missileEntity = -1; 
+                setupComp.MissileEntity = ListPool<int>.Get();
 
-                // --- Пытаемся взять снаряд из пула ---
-                foreach (var pooledMissileEntity in _filterMissile.Value)
-                {
-                    _pool.Value.Del(pooledMissileEntity);
-                    missileEntity = pooledMissileEntity;
-                    ref var transformComp = ref _transformPool.Value.Get(missileEntity);
-                    SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
-                    isShoot = true;
-                    break;
+                for (global::System.Int32 i = 0; i < requestComp.ShotCount; i++)
+                { 
+                    int missileEntity = -1;
+
+                    if (EntityPoolService.TryGet(weaponComp.MissilePrefab.name, out missileEntity))
+                    {
+                        ref var transformComp = ref _transformPool.Value.Get(missileEntity);
+                        SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
+                    } 
+                    else
+                    {
+                        missileEntity = _world.Value.NewEntity();
+                        _pool.Value.Add(missileEntity).KeyName = weaponComp.MissilePrefab.name; 
+                        var missileInstance = GameObject.Instantiate(weaponComp.MissilePrefab, Vector3.zero, Quaternion.identity);
+                        ref var missileComp = ref _missilePool.Value.Add(missileEntity);
+                        missileComp.KeyName = weaponComp.MissilePrefab.name;
+                        ref var transformComp = ref _transformPool.Value.Add(missileEntity);
+                        transformComp.Transform = missileInstance.transform;
+
+                        SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
+                    }
+
+                    // --- Регистрируем событие настройки ---
+                    setupComp.MissileEntity.Add(missileEntity);
+
+                    ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
+                    _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
                 }
-
-                // --- Если не нашли в пуле — создаём новый ---
-                if (!isShoot)
-                {
-                    missileEntity = _world.Value.NewEntity();
-                    var missileInstance = GameObject.Instantiate(weaponComp.MissilePrefab, Vector3.zero, Quaternion.identity);
-
-                    ref var missileComp = ref _missilePool.Value.Add(missileEntity);
-                    missileComp.KeyName = weaponComp.MissilePrefab.name;
-                    ref var transformComp = ref _transformPool.Value.Add(missileEntity);
-                    transformComp.Transform = missileInstance.transform;
-
-                    SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
-                }
-
-                // --- Регистрируем событие настройки ---
-                _setupPool.Value.Add(entity).MissileEntity = missileEntity;
-
-                ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
-                _fireTickPool.Value.Add(entity).RemainingTime = rapidFireComp.RapidfireSpeed; 
             }
         }
 
         void SetTransform(ref TransformComponent transformComp, ref WeaponComponent weaponComp, ref SpreadComponent spreadComp)
-        {
-
+        { 
             // --- Устанавливаем позицию и ротацию ---
             transformComp.Transform.position = weaponComp.FirePoint.position;
             transformComp.Transform.rotation = weaponComp.FirePoint.rotation;
@@ -77,8 +76,7 @@ namespace Client
 
             // Поворот вокруг оси Y — горизонтально
             Quaternion spreadRotation = Quaternion.Euler(0f, randomAngle, 0f);
-            transformComp.Transform.rotation *= spreadRotation;
-
+            transformComp.Transform.rotation *= spreadRotation; 
         }
     }
 }

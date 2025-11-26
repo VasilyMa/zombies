@@ -4,5 +4,6 @@ namespace Client
     {
         public float Delay;
         public float InitialDelay;
+        public float Health;
     }
 }

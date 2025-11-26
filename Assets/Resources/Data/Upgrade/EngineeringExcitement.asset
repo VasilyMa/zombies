@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e80e0487cbdd6459ce226d3d116a12, type: 3}
+  m_Name: EngineeringExcitement
+  m_EditorClassIdentifier: 
+  Name: engineering
+  BuildProcessBonus: 0.1
+  BuildHealthBonus: 0.15
+  PlayerHealthBonus: 0
+  PlayerDamageBonus: 0
+  PlayerAttackSpeedBonus: 0
+  PlayerHealthRegenerationBonus: 0
+  PlayerMoveSpeedBonus: 0

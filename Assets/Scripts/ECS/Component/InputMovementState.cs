@@ -16,6 +16,12 @@ namespace Client
                     ref var characterComp = ref world.GetPool<CharacterControllerComponent>().Get(playerEntity);
                     characterComp.Character.Move(UnityEngine.Vector3.zero);
                 }
+                if (world.GetPool<AnimateComponent>().Has(playerEntity))
+                {
+                    ref var animateComp = ref world.GetPool<AnimateComponent>().Get(playerEntity);
+                    animateComp.Animator.SetFloat("MoveX", 0f);
+                    animateComp.Animator.SetFloat("MoveZ", 0f);
+                }
             }
 
             world.GetPool<InputMovementState>().Del(entity);

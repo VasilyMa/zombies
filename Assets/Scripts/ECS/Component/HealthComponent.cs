@@ -26,6 +26,17 @@ namespace Client
                 Modifiers = new List<float>();
             else
                 Modifiers.Clear();
+        } 
+        public void Sub(float value)
+        {
+            CurrentValue -= value;
+        }
+
+        public void Add(float value)
+        {
+            CurrentValue += value;
+
+            ClampCurrentValue();
         }
 
         /// <summary>

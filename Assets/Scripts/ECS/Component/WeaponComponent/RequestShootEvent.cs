@@ -1,7 +1,10 @@
+using UnityEngine;
+
 namespace Client 
 {
     struct RequestShootEvent 
     {
-        // add your data here.
+        public Vector3 TargetPos;
+        public int ShotCount;
     }
 }

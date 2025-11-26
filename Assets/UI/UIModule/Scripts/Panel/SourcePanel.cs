@@ -146,6 +146,21 @@ public abstract class SourcePanel : MonoBehaviour
 
         return returnedDisplay as T;
     }
+
+    public virtual T GetWindow<T>() where T : SourceWindow
+    { 
+        SourceWindow returnedWindow = null;
+
+        foreach (var sourceWindow in _windows)
+        {
+            if (sourceWindow is T window)
+            {
+                returnedWindow = window;
+            } 
+        } 
+        return returnedWindow as T;
+    }
+
     public virtual T OpenWindow<T>(params object[] data) where T : SourceWindow
     {
         SourceWindow returnedWindow = null;
@@ -155,17 +170,26 @@ public abstract class SourcePanel : MonoBehaviour
             if (sourceWindow is T window)
             {
                 returnedWindow = window;
-            }
-            else
+                break;
+            } 
+        }
+
+        if (returnedWindow)
+        {
+            returnedWindow.OnOpen(data);
+
+            foreach (var sourceWindow in _windows)
             {
-                sourceWindow.OnClose();
+                if (sourceWindow is not T)
+                {
+                    sourceWindow.OnClose();
+                }
             }
         }
 
-        returnedWindow.OnOpen(data);
-
         return returnedWindow as T;
     }
+
     public virtual T CloseWindow<T>() where T : SourceWindow
     {
         SourceWindow returnedWindow = null;
@@ -175,6 +199,7 @@ public abstract class SourcePanel : MonoBehaviour
             if (sourceWindow is T panel)
             {
                 returnedWindow = panel;
+                break;
             }
         }
 

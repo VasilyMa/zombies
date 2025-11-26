@@ -8,7 +8,7 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<MissileComponent, CompleteShootEvent, TransformComponent>> _filter = default;
+        readonly EcsFilterInject<Inc<MissileComponent, CompleteShootEvent, TransformComponent>, Exc<BalisticComponent>> _filter = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         readonly EcsPoolInject<MissileMotionState> _motionStatePool = default;
 
@@ -16,7 +16,7 @@ namespace Client
         {
             foreach (var entity in _filter.Value)
             {
-                ref var transformComp = ref _transformPool.Value.Get(entity);
+                ref var transformComp = ref _transformPool.Value.Get(entity); 
                 transformComp.Transform.gameObject.SetActive(true);
 
                 _motionStatePool.Value.Add(entity);

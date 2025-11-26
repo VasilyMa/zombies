@@ -18,7 +18,12 @@ namespace Client
             {
                 ref var missileComp = ref _missilePool.Value.Get(entity);
 
-                _completePool.Value.Add(missileComp.MissileEntity);
+                foreach (var missileEntity in missileComp.MissileEntity)
+                { 
+                    _completePool.Value.Add(missileEntity); 
+                }
+
+                ListPool<int>.Release(missileComp.MissileEntity);
             }
         }
     }

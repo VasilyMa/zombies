@@ -8,20 +8,21 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<DieEvent, TransformComponent>> _filter = default;
-        readonly EcsPoolInject<DeadComponent> _deadPool = default;
-        readonly EcsPoolInject<ReturnToPoolEvent> _returnPool = default;
+        readonly EcsFilterInject<Inc<DieEvent, TransformComponent>, Exc<PlayerComponent, DeadComponent>> _filter = default; 
         readonly EcsPoolInject<TransformComponent> _transformmPool = default;
+        readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default;
+        readonly EcsPoolInject<DeadComponent> _deadPool = default;
 
         public void Run (IEcsSystems systems) 
         {
             foreach (var entity in _filter.Value)
             {
+                _deadPool.Value.Add(entity);
+
                 ref var transformComp = ref _transformmPool.Value.Get(entity);
                 transformComp.Transform.gameObject.SetActive(false);
-
-                _deadPool.Value.Add(entity);
-                _returnPool.Value.Add(entity);
+                 
+                _cleanUpPool.Value.Add(entity);
             }
         }
     }

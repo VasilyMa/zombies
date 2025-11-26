@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 namespace Statement
 {
     public class InitState : State
-    { 
+    {
+        [SerializeField] private StageBase startStage;
+
         public static new InitState Instance
         {
             get
@@ -34,6 +36,12 @@ namespace Statement
 
         void onConfigLoaded()
         {
+            if (startStage != null)
+            {
+                PlayerEntity.Instance.CurrentStageKey = startStage.KeyName;
+                PlayerEntity.Instance.LevelID = 0;
+            }
+
             SceneManager.LoadScene(1); 
         }  
     }

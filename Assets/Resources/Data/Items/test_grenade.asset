@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621035153ded8b44a1c2b6e3846716f, type: 3}
+  m_Name: test_grenade
+  m_EditorClassIdentifier: 
+  Name: Grenade
+  HitPrefab: {fileID: 0}
+  Icon: {fileID: 0}
+  MissilePrefab: {fileID: 1258406917094090, guid: cb8b3912f685145408044242444604b4, type: 3}
+  MuzzlePrefab: {fileID: 0}
+  ExplosionPrefab: {fileID: 180702, guid: 1ae0732905f1793428493873d321bf94, type: 3}
+  Radius: 3
+  Levels:
+  - Description: 
+    DPS: 25
+    DamageValue: 50
+    RapidFireValue: 2
+    Range: 5
+    MissileSpeedVelocity: 5
+    MissileCount: 1
+    AngleOffset: 0
+  - Description: 
+    DPS: 66.666664
+    DamageValue: 100
+    RapidFireValue: 1.5
+    Range: 5
+    MissileSpeedVelocity: 5
+    MissileCount: 1
+    AngleOffset: 0

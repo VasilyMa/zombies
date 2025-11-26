@@ -9,7 +9,7 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<MissileComponent, MissileMotionState, TransformComponent, VelocityComponent>> _filter = default;
+        readonly EcsFilterInject<Inc<MissileComponent, MissileMotionState, TransformComponent, VelocityComponent>, Exc<BalisticComponent>> _filter = default;
         readonly EcsPoolInject<MissileCollisionEvent> _collisionPool = default;
         readonly EcsPoolInject<TransformComponent> _tranformPool = default;
         readonly EcsPoolInject<MissileMotionState> _motionStatePool = default;

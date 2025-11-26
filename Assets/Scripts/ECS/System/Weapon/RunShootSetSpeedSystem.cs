@@ -20,8 +20,10 @@ namespace Client
                 ref var missileComp = ref _missilePool.Value.Get(entity);
                 ref var speedComp = ref _speedPool.Value.Get(entity);
 
-                ref var velocityComp = ref _velocityPool.Value.Add(missileComp.MissileEntity);
-                velocityComp.Speed = speedComp.Value;
+                foreach (var missileEntity in missileComp.MissileEntity)
+                {
+                    _velocityPool.Value.Add(missileEntity).Speed = speedComp.Value;
+                } 
             }
         }
     }

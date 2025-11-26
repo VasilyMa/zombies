@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05b78b69f424354d858bb349288d2d9, type: 3}
+  m_Name: test_autorifle
+  m_EditorClassIdentifier: 
+  Name: Autorifle
+  HitPrefab: {fileID: 132352, guid: b7454e0c9ded9b743a409e5c0018ecc7, type: 3}
+  Icon: {fileID: 0}
+  MissilePrefab: {fileID: 144206, guid: b4b721ac97869a94493d0dd5eec55975, type: 3}
+  MuzzlePrefab: {fileID: 0}
+  Levels:
+  - Description: 
+    DPS: 20
+    DamageValue: 10
+    RapidFireValue: 0.5
+    Range: 10
+    MissileSpeedVelocity: 10
+    MissileCount: 1
+    AngleOffset: 25
+  - Description: 
+    DPS: 30
+    DamageValue: 15
+    RapidFireValue: 0.5
+    Range: 10
+    MissileSpeedVelocity: 10
+    MissileCount: 1
+    AngleOffset: 25

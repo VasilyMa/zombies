@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ColossalZombie
+  m_Controller: {fileID: 9100000, guid: 2e988a60c597f21468aee640e5f8445d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -1452275646898683282, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: 5907380908964107111, guid: 09aedd2d815b8f444ba227f8ba0988ac, type: 3}
+  - m_OriginalClip: {fileID: 8940294551909030576, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: 4547095737350708893, guid: 09aedd2d815b8f444ba227f8ba0988ac, type: 3}
+  - m_OriginalClip: {fileID: 4932999439571615726, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: -6941506838200013853, guid: 09aedd2d815b8f444ba227f8ba0988ac, type: 3}
+  - m_OriginalClip: {fileID: -4618337356336894703, guid: 8829c1d7bc38c4e4797e88ae56fe7e2e, type: 3}
+    m_OverrideClip: {fileID: 7558516919140055353, guid: 09aedd2d815b8f444ba227f8ba0988ac, type: 3}

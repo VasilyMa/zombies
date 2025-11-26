@@ -10,7 +10,7 @@ namespace Client
         readonly EcsSharedInject<BattleState> _state = default;
         readonly EcsFilterInject<Inc<ResolveMissileEvent>> _filter = default;
         readonly EcsPoolInject<ResolveMissileEvent> _resolvePool = default;
-        readonly EcsPoolInject<ResolveHitEvent> _hitPool = default;
+        readonly EcsPoolInject<ResolveHitEvent> _resolveHitPool = default; 
 
         public void Run (IEcsSystems systems) 
         {
@@ -20,7 +20,7 @@ namespace Client
 
                 foreach (var hitEntity in resolveComp.HitEntities)
                 {
-                    _hitPool.Value.Add(hitEntity);
+                    _resolveHitPool.Value.Add(hitEntity);
                 }
 
                 ListPool<int>.Release(resolveComp.HitEntities);

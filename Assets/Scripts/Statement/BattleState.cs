@@ -26,25 +26,26 @@ namespace Statement
         [SerializeField] protected LevelBase _levelData;
         public LevelBase LevelData => _levelData;
 
+        protected Dictionary<UpgradeBase, int> _upgrades = new();
+
         public override void Awake()
         {
             base.Awake();
 
-            if (_instance == null) _instance = this; 
+            if (_instance == null) _instance = this;
 
-            EcsHandler = new MainEcsHandler(this);
+            var player = PlayerEntity.Instance; 
 
-            UIModule.Inject(EcsHandler.World, this);
+            var stageConfig = ConfigModule.GetConfig<StageConfig>();
 
-            if (SceneBus.TryGet<LevelBase>(out var levelData))
-            { 
-                _levelData = levelData;
-
+            if (stageConfig.TryGetStage(player.CurrentStageKey, out var stage))
+            {
+                _levelData = stage.GetLevelByID(player.LevelID);
+                 
                 EcsHandler = new MainEcsHandler(this);
 
                 UIModule.Inject(EcsHandler.World, this);
-            }
-
+            } 
         }
 
         public override void Start()
@@ -69,6 +70,37 @@ namespace Statement
             EcsHandler.Dispose(); 
             if (_instance == this)
                 _instance = null;
+        }
+
+        public virtual int GetLevelUpgrade(UpgradeBase value)
+        {
+            if (_upgrades.TryGetValue(value, out int level))
+            {
+                return level;
+            }
+
+            return 0;
+        }
+
+        public virtual void AddUpgrade(UpgradeBase value)
+        {
+            if (_upgrades.ContainsKey(value))
+            {
+                _upgrades[value]++;   
+            }
+            else
+            {
+                _upgrades.Add(value, 1 );
+            }
+        }
+
+        public virtual void ApplyUpgrade(int entity)
+        {
+            foreach (var keyValuePair in _upgrades)
+            {
+                int level = keyValuePair.Value;
+                keyValuePair.Key.Apply(EcsHandler.World, this, level, entity);
+            }
         }
 
         public virtual void AddEntity(string localKey, int entity)

@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Client 
 {
-    struct SpawnEvent 
+    public struct SpawnEvent 
     {
         public float Amplifier;
         public EnemyBase EnemyBase;
-        public Transform SpawnPoint;
+        public Vector3 SpawnPoint;
     }
 }

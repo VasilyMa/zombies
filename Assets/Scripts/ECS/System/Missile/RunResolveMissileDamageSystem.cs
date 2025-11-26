@@ -8,10 +8,10 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<ResolveMissileEvent, DamageComponent>> _fitler = default;
+        readonly EcsFilterInject<Inc<ResolveMissileEvent, DamageComponent>, Exc<NearEffectComponent>> _fitler = default;
         readonly EcsPoolInject<DamageComponent> _damagePool = default;
         readonly EcsPoolInject<ResolveMissileEvent> _resolvePool = default;
-        readonly EcsPoolInject<ThrowDamageEvent> _throwPool = default;
+        readonly EcsPoolInject<ThrowDamageEvent> _throwPool = default; 
 
         public void Run (IEcsSystems systems) 
         {
@@ -24,7 +24,7 @@ namespace Client
                 {
                     ref var throwDamageComp = ref _throwPool.Value.Add(hitEntity);
                     throwDamageComp.Damage = damageComp.Value;
-                }
+                } 
             }
         }
     }

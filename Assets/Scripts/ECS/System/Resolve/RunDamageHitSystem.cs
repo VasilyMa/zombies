@@ -10,8 +10,8 @@ namespace Client
         readonly EcsSharedInject<BattleState> _state = default;
         readonly EcsFilterInject<Inc<ResolveHitEvent, HitEvent, ThrowDamageEvent>> _filter = default;
         readonly EcsPoolInject<HitEvent> _hitPool = default;
-        readonly EcsPoolInject<ThrowDamageEvent> _throwDamagePool = default;
-        readonly EcsPoolInject<TakeDamageEvent> _takeDamagePool = default;
+        readonly EcsPoolInject<ThrowDamageEvent> _throwDamagePool = default; 
+        readonly EcsPoolInject<DamageHandlerComponent> _damageHandlerPool = default;
 
         public void Run (IEcsSystems systems) 
         {
@@ -20,10 +20,11 @@ namespace Client
                 ref var hitComp = ref _hitPool.Value.Get(entity);
                 ref var throwDmageComp = ref _throwDamagePool.Value.Get(entity);
 
-                if (!_takeDamagePool.Value.Has(hitComp.TargetEntity)) _takeDamagePool.Value.Add(hitComp.TargetEntity);
+                if (!_damageHandlerPool.Value.Has(hitComp.TargetEntity)) _damageHandlerPool.Value.Add(hitComp.TargetEntity);
 
-                ref var takeDamageComp = ref _takeDamagePool.Value.Get(hitComp.TargetEntity);
-                takeDamageComp.DamageValue += throwDmageComp.Damage;
+                ref var damageComp = ref _damageHandlerPool.Value.Get(hitComp.TargetEntity);
+
+                damageComp.DamageValue += throwDmageComp.Damage;
             }
         }
     }

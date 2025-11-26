@@ -18,10 +18,11 @@ namespace Client
         {
             foreach (var entity in _filter.Value)
             {
+                ref var buildProcessComp = ref _buildProcessPool.Value.Get(entity);
                 ref var wallComp = ref _wallPool.Value.Get(entity);
                 wallComp.CurrentProgress = 0;
                 ref var healthComp = ref _healthPool.Value.Add(entity);
-                healthComp.Init(10);
+                healthComp.Init(buildProcessComp.Health);
                 ref var transformComp = ref _transformPool.Value.Get(entity);
                 transformComp.Transform.gameObject.SetActive(true);
 

@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0a53faa63ff5e4f86ac58720b5f36d, type: 3}
+  m_Name: level_1_1
+  m_EditorClassIdentifier: 
+  Name: Jungle
+  Description: 
+  Icon: {fileID: 21300000, guid: a6c56474666ce0647bdb766e9b4764b3, type: 3}
+  LevelPrefabView: {fileID: 0}
+  Number: 1
+  SpawnInterval: 1
+  SpawnCount: 1
+  EnemyContainers:
+  - StartTimeSeconds: 0
+    Enemies:
+    - {fileID: 11400000, guid: b6d10b1da7114304f911ff61b6357ad1, type: 2}
+    - {fileID: 11400000, guid: 5e9244c520be682428eef4cb36e25b38, type: 2}
+    - {fileID: 11400000, guid: 062c20d5e30a2084f9616c2c6df6ca58, type: 2}
+    - {fileID: 11400000, guid: 2104100446d9d824fa6279949427b06e, type: 2}
+    - {fileID: 11400000, guid: e8108ced297622849812c84cf9f79b8d, type: 2}
+  - StartTimeSeconds: 30
+    Enemies:
+    - {fileID: 11400000, guid: b6d10b1da7114304f911ff61b6357ad1, type: 2}
+    - {fileID: 11400000, guid: 5e9244c520be682428eef4cb36e25b38, type: 2}
+    - {fileID: 11400000, guid: 062c20d5e30a2084f9616c2c6df6ca58, type: 2}
+    - {fileID: 11400000, guid: 2104100446d9d824fa6279949427b06e, type: 2}
+    - {fileID: 11400000, guid: e8108ced297622849812c84cf9f79b8d, type: 2}
+  - StartTimeSeconds: 45
+    Enemies:
+    - {fileID: 11400000, guid: b6d10b1da7114304f911ff61b6357ad1, type: 2}
+    - {fileID: 11400000, guid: 5e9244c520be682428eef4cb36e25b38, type: 2}
+    - {fileID: 11400000, guid: 062c20d5e30a2084f9616c2c6df6ca58, type: 2}
+    - {fileID: 11400000, guid: 2104100446d9d824fa6279949427b06e, type: 2}
+    - {fileID: 11400000, guid: e8108ced297622849812c84cf9f79b8d, type: 2}
+  MaxMatchDuration: 180
+  SpawnIntervalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EnemiesPerSpawnCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 3
+      inSlope: 2
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EnemyWeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EnemyPowerUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 2
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

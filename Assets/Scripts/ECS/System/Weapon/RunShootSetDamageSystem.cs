@@ -12,8 +12,7 @@ namespace Client
         readonly EcsPoolInject<DamageComponent> _damagePool = default;
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
         readonly EcsPoolInject<MissileSetupEvent> _missilePool = default;
-
-
+         
         public void Run (IEcsSystems systems) 
         {
             foreach (var entity in _filter.Value)
@@ -21,8 +20,11 @@ namespace Client
                 ref var missileComp = ref _missilePool.Value.Get(entity);
                 ref var attackComp = ref _attackPool.Value.Get(entity);
 
-                ref var damageComp = ref _damagePool.Value.Add(missileComp.MissileEntity);
-                damageComp.Value = attackComp.Damage;
+                foreach (var missileEntity in missileComp.MissileEntity)
+                { 
+                    ref var damageComp = ref _damagePool.Value.Add(missileEntity);
+                    damageComp.Value = attackComp.Damage + (attackComp.Damage * attackComp.Modifier);
+                }
             }
         }
     }

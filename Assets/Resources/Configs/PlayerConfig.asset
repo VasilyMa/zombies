@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f737a97b99ab05b448d66f5b3ed13643, type: 3}
+  m_Name: PlayerConfig
+  m_EditorClassIdentifier: 
+  Health: 100
+  Damage: 10
+  Armor: 1
+  RapidFire: 1
+  MoveSpeed: 2
+  BuildSpeed: 1
+  BuildHealth: 1
+  BuildCost: 1
+  Recovery: 0
+  ChanceAdditionalShot: 0
+  Levels:
+  - Level: 1
+    NeededExperience: 100
+  - Level: 2
+    NeededExperience: 250
+  - Level: 3
+    NeededExperience: 500
+  - Level: 4
+    NeededExperience: 750
+  - Level: 5
+    NeededExperience: 1000
+  - Level: 6
+    NeededExperience: 1000
+  - Level: 7
+    NeededExperience: 1000
+  - Level: 8
+    NeededExperience: 1000
+  - Level: 9
+    NeededExperience: 1000
+  - Level: 9
+    NeededExperience: 1000
