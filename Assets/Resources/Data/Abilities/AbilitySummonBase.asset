@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 10
   castingTime: 1
+  SummonEffect: {fileID: 187180, guid: cabbd068729c51f498b91c87e6ba9acd, type: 3}
   SummonBase: {fileID: 11400000, guid: 2104100446d9d824fa6279949427b06e, type: 2}
   Count: 2
