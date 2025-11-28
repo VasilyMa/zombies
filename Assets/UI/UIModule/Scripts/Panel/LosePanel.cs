@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
 
 public class LosePanel : SourcePanel
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public RewardData Data { set => GetWindow<LoseWindow>().Data = value; } 
+
+    public override void OnOpen(params Action[] onComplete)
     {
-        
+        AddCallback(openLoseWindow);
+
+        base.OnOpen(onComplete);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void openLoseWindow()
     {
-        
+        OpenWindow<LoseWindow>();
     }
 }

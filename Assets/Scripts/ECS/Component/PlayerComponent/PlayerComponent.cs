@@ -12,6 +12,7 @@ namespace Client
             if (Money >= amount)
             {
                 Money -= amount;
+                ObserverEntity.instance.ResourcesChange(Money);
                 return true;
             }
             return false;
@@ -20,6 +21,8 @@ namespace Client
         public void AddMoney(int money)
         {
             Money += money;
+
+            ObserverEntity.instance.ResourcesChange(Money);
         }
 
         public void AddNeedeExperience(int needed)

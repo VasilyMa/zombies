@@ -9,11 +9,12 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<EnemyComponent, CombatComponent, TransformComponent, AttackComponent>, Exc<InActionState, DeadComponent>> _filter = default;
+        readonly EcsFilterInject<Inc<EnemyComponent, CombatComponent, TransformComponent, AttackComponent>, Exc<InActionState, DeadComponent, LockState>> _filter = default;
         readonly EcsPoolInject<CombatComponent> _combatPool = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         readonly EcsPoolInject<InCombatState> _combatState = default;
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
+        readonly EcsPoolInject<HealthComponent> _healthPool = default;
 
         int layerMask = LayerMask.GetMask("Player", "Construction");
 
@@ -40,7 +41,7 @@ namespace Client
 
                     for (int i = 0; i < hits; i++)
                     {
-                        if (_state.Value.TryGetEntity(colliders[i].name, out int targetEntity))
+                        if (_state.Value.TryGetEntity(colliders[i].name, out int targetEntity) && _healthPool.Value.Has(targetEntity))
                         {
                             ref var targetTransformComp = ref _transformPool.Value.Get(targetEntity);
 

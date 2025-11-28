@@ -14,6 +14,7 @@ namespace Client
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         readonly EcsPoolInject<EngineComponent> _enginePool = default;
         readonly EcsPoolInject<HealthComponent> _healthPool = default;
+        readonly EcsPoolInject<DamageHandlerComponent> _damageHandlerPool = default;
 
         public void Init (IEcsSystems systems) 
         {
@@ -31,6 +32,12 @@ namespace Client
                 ref var transformComp = ref _transformPool.Value.Add(wallEntity);
                 transformComp.Transform = wall.wallObject.transform;
                 transformComp.Transform.gameObject.SetActive(false);
+
+                _state.Value.AddEntity(wallEntity.ToString(), wallEntity);
+
+                wall.gameObject.name = wallEntity.ToString();
+
+                _damageHandlerPool.Value.Add(wallEntity);
             }
         }
 

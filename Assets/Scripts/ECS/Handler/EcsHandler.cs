@@ -3,8 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using Statement;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic; 
 
 public abstract class EcsRunHandler
 {
@@ -45,6 +44,7 @@ public abstract class EcsRunHandler
         _data = new EcsData();
 
         _initSystems
+            .Add(new InitCameraSystem())
             .Add(new InitBattleFieldSystem())
             .Add(new InitPlayerSystem())
             .Add(new InitLevelHandlerSystem())
@@ -161,6 +161,9 @@ public abstract class EcsRunHandler
             .Add(new RunReturnPoolSystem()) 
 
             .Add(new RunLevelHandlerSystem())
+            .Add(new RunLevelFinishSystem())
+            .Add(new RunLevelLoseSystem())
+            .Add(new RunLevelWinSystem())
             .Add(new RunPlayerMovementSystem())
             .Add(new RunEnemyMovementSystem())
             .Add(new RunFastMovementSystem())
@@ -183,6 +186,8 @@ public abstract class EcsRunHandler
              
             .Add(new RunVFXLifetimeSystem())
 
+            .DelHere<LevelLoseEvent>()
+            .DelHere<LevelWinEvent>()
             .DelHere<PlayerExperienceEvent>() 
             .DelHere<SpawnEvent>() 
             .DelHere<ReturnToPoolEvent>()

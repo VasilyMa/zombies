@@ -9,7 +9,7 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<EnemyComponent, MovementComponent, TransformComponent>, Exc<DeadComponent, FastComponent, InActionState, InCombatState>> _enemyFilter = default;
+        readonly EcsFilterInject<Inc<EnemyComponent, MovementComponent, TransformComponent>, Exc<DeadComponent, FastComponent, InActionState, InCombatState, LockState>> _enemyFilter = default;
         readonly EcsPoolInject<MovementComponent> _movePool = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         public void Run (IEcsSystems systems) 

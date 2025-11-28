@@ -8,6 +8,7 @@ public class TurretZone : TriggerZone
     public event Action<int, Collider> TriggerExited;
 
     public GameObject turretObject;
+    public GameObject firePoint;
       
     public override void OnTriggerEnter(Collider other)
     {

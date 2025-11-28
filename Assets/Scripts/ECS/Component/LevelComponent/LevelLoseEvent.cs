@@ -1,5 +1,7 @@
-namespace Client {
-    struct LevelLoseEvent {
-        // add your data here.
+namespace Client
+{
+    struct LevelLoseEvent 
+    {
+        public float NormilizedTime;
     }
 }

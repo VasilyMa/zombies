@@ -1,5 +1,3 @@
-using Leopotam.EcsLite;
-using Statement;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,5 +1,7 @@
-namespace Client {
-    struct LevelWinEvent {
-        // add your data here.
+namespace Client
+{
+    struct LevelWinEvent 
+    {
+        
     }
 }

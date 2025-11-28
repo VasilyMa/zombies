@@ -9,9 +9,10 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<LevelComponent>> _filter = default;
+        readonly EcsFilterInject<Inc<LevelComponent>, Exc<LevelFinishState, LockState>> _filter = default;
         readonly EcsPoolInject<LevelComponent> _levelPool = default;
         readonly EcsPoolInject<SpawnEvent> _spawnPool = default;
+        readonly EcsPoolInject<LevelFinishState> _levelFinishPool = default;
 
         public void Run (IEcsSystems systems)
         {
@@ -41,6 +42,13 @@ namespace Client
                         spawnComp.SpawnPoint = levelComp.SpawnPoints[Random.Range(0, levelComp.SpawnPoints.Length)].position;
                     } 
                 }
+
+                if (levelComp.ElapsedTime >= levelComp.MatchDuration)
+                {
+                    _levelFinishPool.Value.Add(entity);
+                }
+
+                ObserverEntity.instance.ElapsedTimeChange(levelComp.ElapsedTime);
             }
         }
     }

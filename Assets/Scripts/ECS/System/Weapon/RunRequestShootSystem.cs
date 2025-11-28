@@ -10,8 +10,8 @@ namespace Client
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
 
-        readonly EcsFilterInject<Inc<EnemyComponent>, Exc<DeadComponent>> _enemyFilter = default;
-        readonly EcsFilterInject<Inc<WeaponComponent>, Exc<InFiretickState, RequestShootEvent>> _weaponFilter = default;
+        readonly EcsFilterInject<Inc<EnemyComponent>, Exc<DeadComponent, LockState>> _enemyFilter = default;
+        readonly EcsFilterInject<Inc<WeaponComponent>, Exc<InFiretickState, RequestShootEvent, LockState>> _weaponFilter = default;
 
         readonly EcsPoolInject<RequestShootEvent> _shootPool = default;
         readonly EcsPoolInject<WeaponComponent> _weaponPool = default;

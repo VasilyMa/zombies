@@ -24,6 +24,7 @@ namespace Client
         readonly EcsPoolInject<RecoveryComponent> _recoveryPool = default;
         readonly EcsPoolInject<DamageHandlerComponent> _damagePool = default;
         readonly EcsPoolInject<BoundsComponent> _boundsPool = default;
+        readonly EcsPoolInject<CameraComponent> _cameraPool = default;
 
         public void Init (IEcsSystems systems) 
         { 
@@ -46,9 +47,9 @@ namespace Client
 
             // Добавляем всегда PlayerComponent и MovementComponent
             ref var playerComp = ref _playerPool.Value.Add(playerEntity);
-            playerComp.Experience = 0;
-            playerComp.Money = 10;
+            playerComp.Experience = 0;  
             playerComp.NextLevelExperience = playerConfig.Levels[0].NeededExperience;
+            playerComp.AddMoney(10);
 
             ref var damageComp = ref _damagePool.Value.Add(playerEntity);
 
@@ -109,6 +110,13 @@ namespace Client
             transformComp.Transform.gameObject.name = "player";
 
             _state.Value.AddEntity("player", playerEntity);
+
+            if (_state.Value.TryGetEntity("camera", out int cameraEntity))
+            {
+                ref var cameraComp = ref _cameraPool.Value.Get(cameraEntity);
+                cameraComp.Camera.LookAt = playerInstance.transform;
+                cameraComp.Camera.Follow = playerInstance.transform;
+            }
         }
          
         // Исправленный вариант поиска аниматора

@@ -24,9 +24,11 @@ namespace Statement
         protected EcsRunHandler EcsHandler;
         protected Dictionary<string, EcsPackedEntity> _ecsMap = new();
         [SerializeField] protected LevelBase _levelData;
-        public LevelBase LevelData => _levelData;
-
+        public LevelBase LevelData => _levelData; 
         protected Dictionary<UpgradeBase, int> _upgrades = new();
+
+        private int KillCount;
+        private float ElapsedTime;
 
         public override void Awake()
         {
@@ -138,6 +140,31 @@ namespace Statement
 
             unpackedEntity = -1;
             return false;
+        }
+
+        public virtual int GetReward(float normilizedTime)
+        { 
+            return _levelData.GetCurrentReward(normilizedTime);
+        }
+
+        public virtual void SetElapsedTime(float value)
+        {
+            ElapsedTime = value;
+        }
+
+        public virtual float GetElapsedTime()
+        {
+            return ElapsedTime; 
+        }
+
+        public virtual void AddKillCount()
+        {
+            KillCount++;
+        }
+
+        public virtual int GetKillCount()
+        {
+            return KillCount;
         }
 
         public virtual void InvokeStartWeapon()

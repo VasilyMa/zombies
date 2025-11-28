@@ -4,6 +4,8 @@ using UnityEngine;
 public class ObserverEntity : SourceEntity
 {
     public event Action<float> OnExperienceChange;
+    public event Action<float> OnElapsedTimeChange;
+    public event Action<int> OnResourcesChange;
     public event Action<int> OnLevelChange;
 
 
@@ -13,6 +15,16 @@ public class ObserverEntity : SourceEntity
     {
         instance = this;
     }
+
+    public void ResourcesChange(int value)
+    {
+        OnResourcesChange?.Invoke(value);
+    }
+
+    public void ElapsedTimeChange(float value)
+    {
+        OnElapsedTimeChange?.Invoke(value);
+    } 
 
     public void ExperienceChange(float normalized)
     {

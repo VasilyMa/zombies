@@ -25,7 +25,7 @@ namespace Client
                 ref var targetTransformComp = ref _transformPool.Value.Get(targetComp.Entity);
                 ref var turretComp = ref _world.Value.GetPool<TurretComponent>().Get(entity);
 
-                Transform turret = turretTransformComp.Transform;
+                Transform turret = turretComp.TurretObject;
                 Transform target = targetTransformComp.Transform;
 
                 Vector3 dir = target.position - turret.position;

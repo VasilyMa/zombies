@@ -41,8 +41,23 @@ public class LevelBase : ScriptableObject
     [Tooltip("Кривая усиления врагов (0 - старт, 1 - конец матча). Значение умножается на параметры врага.")]
     private AnimationCurve EnemyPowerUpCurve = AnimationCurve.Linear(0, 1, 1, 2);
 
+    [SerializeField]
+    [Header("Награда за миссию")]
+    private int MaxRewardValue;
+    [SerializeField]
+    private AnimationCurve RewardCurve = AnimationCurve.Linear(0, 1, 1, 2);
+
     public float IntervalSpawn => SpawnInterval;
     public int CountSpawn => SpawnCount;
+
+    public int GetCurrentReward(float timeNormalized)
+    { 
+        timeNormalized = Mathf.Clamp01(timeNormalized);
+         
+        float curveValue = RewardCurve.Evaluate(timeNormalized);
+         
+        return Mathf.RoundToInt(MaxRewardValue * curveValue);
+    }
 
     /// <summary>
     /// Получить интервал спавна на текущий момент матча (timeNormalized: 0..1)
@@ -131,4 +146,11 @@ public class EnemyContainer
         }
         return Enemies[Enemies.Count - 1];
     }
+}
+
+public struct RewardData
+{
+    public int Reward;
+    public float ElapsedTime;
+    public int KillCount;
 }

@@ -20,6 +20,7 @@ namespace Client
         readonly EcsPoolInject<SpeedComponent> _speedPool = default;
         readonly EcsPoolInject<EngineComponent> _enginePool = default;
         readonly EcsPoolInject<HealthComponent> _healthPool = default;
+        readonly EcsPoolInject<DamageHandlerComponent> _damageHandlerPool = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -39,7 +40,8 @@ namespace Client
 
                 ref var turretComp = ref _turretPool.Value.Add(turretEntity);
                 turretComp.TargetProgress = 5;
-                turretComp.FirePoint = turret.turretObject.transform;
+                turretComp.TurretObject = turret.turretObject.transform;
+                turretComp.FirePoint = turret.firePoint.transform;
                 turretComp.MissilePrefab = turretBase.MissilePrefab;
                 turretComp.RotationSpeed = turretBase.RotationSpeed;
 
@@ -63,6 +65,12 @@ namespace Client
                 speedComp.Value = turretBase.Speed;
 
                 ref var targetComp = ref _targetPool.Value.Add(turretEntity);
+
+                _state.Value.AddEntity(turretEntity.ToString(), turretEntity);
+
+                turret.gameObject.name = turretEntity.ToString();
+
+                _damageHandlerPool.Value.Add(turretEntity);
             }
         }
 

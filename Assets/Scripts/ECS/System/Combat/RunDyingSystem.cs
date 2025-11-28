@@ -17,6 +17,8 @@ namespace Client
         {
             foreach (var entity in _filter.Value)
             {
+                _state.Value.AddKillCount();
+
                 _deadPool.Value.Add(entity);
 
                 ref var transformComp = ref _transformmPool.Value.Get(entity);

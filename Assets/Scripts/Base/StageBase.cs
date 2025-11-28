@@ -15,4 +15,5 @@ public class StageBase : ScriptableObject
     {
         return Levels[id];
     }
+
 }

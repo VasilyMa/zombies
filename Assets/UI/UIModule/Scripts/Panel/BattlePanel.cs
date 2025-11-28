@@ -11,6 +11,8 @@ public class BattlePanel : SourcePanel
     [SerializeField] MovementJoystick movementJoystick;
     [SerializeField] Image _expFill;
     [SerializeField] TextMeshProUGUI _levelTitle;
+    [SerializeField] TextMeshProUGUI _resourcesTitle;
+    [SerializeField] TextMeshProUGUI _elapsedTimeTitle;
 
     EcsPool<InputMovementState> _movePool = default;
     EcsPool<DisposeEvent> _disposePool = default;
@@ -30,8 +32,24 @@ public class BattlePanel : SourcePanel
 
         ObserverEntity.instance.OnLevelChange += OnLevelChange;
         ObserverEntity.instance.OnExperienceChange += OnExpChange;
+        ObserverEntity.instance.OnElapsedTimeChange += OnElapsedTime;
+        ObserverEntity.instance.OnResourcesChange += OnResources;
+
 
         base.Init(canvasParent);
+    }
+
+    void OnResources(int value)
+    {
+        _resourcesTitle.text = $"{value}";
+    }
+
+    void OnElapsedTime(float value)
+    { 
+        float seconds = value;
+        TimeSpan time = TimeSpan.FromSeconds(seconds);
+
+        _elapsedTimeTitle.text = $"Time elapsed: {time.Minutes:D2}:{time.Seconds:D2}";
     }
 
     void OnLevelChange(int level)
@@ -50,6 +68,8 @@ public class BattlePanel : SourcePanel
 
         ObserverEntity.instance.OnLevelChange -= OnLevelChange;
         ObserverEntity.instance.OnExperienceChange -= OnExpChange;
+        ObserverEntity.instance.OnElapsedTimeChange -= OnElapsedTime;
+        ObserverEntity.instance.OnResourcesChange -= OnResources;
 
         base.OnDipose();
     }
