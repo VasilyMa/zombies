@@ -110,6 +110,7 @@ public abstract class EcsRunHandler
             .Add(new RunResolveMissileSlowSystem())
             .Add(new RunResolveMissileExplosionEffectSystem())
             .Add(new RunResolveMissileHitEffectSystem())
+            .Add(new RunResolveMissileParticleSystem())
 
             .Add(new RunResolveMissileSystem())
              
@@ -211,6 +212,7 @@ public abstract class EcsRunHandler
             .Add(new RunUpdateHealthSystem())
 
             .Add(new RunPlayerDyingSystem())
+            .Add(new RunConstructDyingSystem())
 
             .Add(new RunDyingSystem())  
             .Add(new RunAfterDieExplosionSystem())

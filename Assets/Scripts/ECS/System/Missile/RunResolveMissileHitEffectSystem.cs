@@ -14,6 +14,7 @@ namespace Client
         readonly EcsPoolInject<VFXComponent> _vfxPool;
         readonly EcsPoolInject<LifetimeComponent> _lifePool = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
+        readonly EcsPoolInject<PoolComponent> _pool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -40,6 +41,8 @@ namespace Client
                     var instance = GameObject.Instantiate(hitComp.Prefab, transformComp.Transform.position, Quaternion.identity);
                     tc.Transform = instance.transform;
                     tc.Transform.gameObject.SetActive(true);
+
+                    _pool.Value.Add(vfxEntity).KeyName = hitComp.Prefab.name;
                 }
 
                 _lifePool.Value.Add(vfxEntity).RemainingTime = 2f;

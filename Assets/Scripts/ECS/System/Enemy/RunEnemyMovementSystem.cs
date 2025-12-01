@@ -12,6 +12,9 @@ namespace Client
         readonly EcsFilterInject<Inc<EnemyComponent, MovementComponent, TransformComponent>, Exc<DeadComponent, FastComponent, InActionState, InCombatState, LockState>> _enemyFilter = default;
         readonly EcsPoolInject<MovementComponent> _movePool = default;
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
+
+        Vector3 forward = Vector3.back;
+
         public void Run (IEcsSystems systems) 
         {
             foreach (var enemyEntity in _enemyFilter.Value)
@@ -19,7 +22,8 @@ namespace Client
                 ref var moveComp = ref _movePool.Value.Get(enemyEntity);
                 ref var transformComp = ref _transformPool.Value.Get(enemyEntity);
                  
-                transformComp.Transform.position += transformComp.Transform.forward * moveComp.CurrentValue * Time.deltaTime; 
+                transformComp.Transform.position += forward * moveComp.CurrentValue * Time.deltaTime; 
+                transformComp.Transform.forward = forward;
             }
         }
     }

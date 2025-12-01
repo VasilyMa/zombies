@@ -19,17 +19,17 @@ MonoBehaviour:
   MuzzlePrefab: {fileID: 0}
   Levels:
   - Description: 
-    DPS: 5
+    DPS: 3.3333333
     DamageValue: 5
-    RapidFireValue: 1
+    RapidFireValue: 1.5
     Range: 10
     MissileSpeedVelocity: 10
     MissileCount: 5
     AngleOffset: 20
   - Description: 
-    DPS: 10
+    DPS: 8
     DamageValue: 10
-    RapidFireValue: 1
+    RapidFireValue: 1.25
     Range: 10
     MissileSpeedVelocity: 10
     MissileCount: 5

@@ -21,6 +21,7 @@ namespace Client
         readonly EcsPoolInject<SpreadComponent> _spreadPool = default;
         readonly EcsPoolInject<MissileComponent> _missilePool = default;
         readonly EcsPoolInject<RequestShootEvent> _requestPool = default;
+        readonly EcsPoolInject<ParticleComponent> _particlePool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -38,7 +39,7 @@ namespace Client
                     int missileEntity = -1;
 
                     if (EntityPoolService.TryGet(weaponComp.MissilePrefab.name, out missileEntity))
-                    {
+                    { 
                         ref var transformComp = ref _transformPool.Value.Get(missileEntity);
                         SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
                     } 
@@ -46,11 +47,14 @@ namespace Client
                     {
                         missileEntity = _world.Value.NewEntity();
                         _pool.Value.Add(missileEntity).KeyName = weaponComp.MissilePrefab.name; 
-                        var missileInstance = GameObject.Instantiate(weaponComp.MissilePrefab, Vector3.zero, Quaternion.identity);
+                        var missileInstance = GameObject.Instantiate(weaponComp.MissilePrefab, weaponComp.FirePoint.position, Quaternion.identity);
                         ref var missileComp = ref _missilePool.Value.Add(missileEntity);
                         missileComp.KeyName = weaponComp.MissilePrefab.name;
                         ref var transformComp = ref _transformPool.Value.Add(missileEntity);
                         transformComp.Transform = missileInstance.transform;
+
+                        ref var paticleComp = ref _particlePool.Value.Add(missileEntity);
+                        paticleComp.Particles = missileInstance.GetComponentsInChildren<ParticleSystem>();
 
                         SetTransform(ref transformComp, ref weaponComp, ref spreadComp);
                     }
@@ -59,7 +63,7 @@ namespace Client
                     setupComp.MissileEntity.Add(missileEntity);
 
                     ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
-                    _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
+                    if (!_fireTickPool.Value.Has(entity)) _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
                 }
             }
         }

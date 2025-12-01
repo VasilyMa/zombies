@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: fat
   Weight: 0.1
-  MoveSpeed: 0.7
+  MoveSpeed: 0.5
   AttackSpeed: 1
-  Health: 100
+  Health: 25
   Attack: 1
   Delay: 1
   Range: 2

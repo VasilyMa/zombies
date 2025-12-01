@@ -31,6 +31,13 @@ public class UIHandler : MonoBehaviour
         }
 
         _canvases.ForEach(canvas => canvas.Init());
+    } 
+    public void UnInject()
+    {
+        foreach (var panel in _panels)
+        {
+            panel.UnInjectable();
+        }
     }
 
     public void Inject(params object[] data)

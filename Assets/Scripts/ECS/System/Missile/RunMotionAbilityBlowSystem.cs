@@ -20,7 +20,8 @@ namespace Client
         readonly EcsPoolInject<HitEvent> _hitPool = default;
         readonly EcsPoolInject<ResolveHitEvent> _resolvePool = default;
         readonly EcsPoolInject<DamageComponent> _damagePool = default;
-        readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default; 
+        readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default;
+        readonly EcsPoolInject<ParticleComponent> _particlePool = default;
 
         int layerMask = LayerMask.GetMask("Player");
 
@@ -53,6 +54,15 @@ namespace Client
                             _hitPool.Value.Add(hitEntity).TargetEntity = targetEntity;
                             _resolvePool.Value.Add(hitEntity); 
                             _cleanUpPool.Value.Add(entity);
+
+                            ref var particleComp = ref _particlePool.Value.Get(entity);
+
+                            int length = particleComp.Particles.Length;
+
+                            for (global::System.Int32 j = 0; j < length; j++)
+                            {
+                                particleComp.Particles[i].Clear();   
+                            }
                         }
                     }
                     continue;

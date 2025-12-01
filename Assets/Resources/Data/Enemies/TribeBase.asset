@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: tribe
   Weight: 0.3
-  MoveSpeed: 0.6
+  MoveSpeed: 0.4
   AttackSpeed: 1
-  Health: 1
-  Attack: 1
+  Health: 5
+  Attack: 2
   Delay: 1
   Range: 1
   Reward: 1

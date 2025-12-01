@@ -70,8 +70,13 @@ namespace Statement
         {
             base.OnDestroy();
             EcsHandler.Dispose(); 
+
             if (_instance == this)
                 _instance = null;
+
+            EntityPoolService.ClearAll();
+            GameObjectPoolService.ClearAll();
+            UIModule.UnInject();
         }
 
         public virtual int GetLevelUpgrade(UpgradeBase value)
@@ -166,6 +171,7 @@ namespace Statement
         {
             return KillCount;
         }
+         
 
         public virtual void InvokeStartWeapon()
         {

@@ -25,12 +25,12 @@ MonoBehaviour:
     Range: 100
     MissileSpeedVelocity: 10
     MissileCount: 1
-    AngleOffset: 10
+    AngleOffset: 8
   - Description: 
-    DPS: 8
+    DPS: 5
     DamageValue: 4
-    RapidFireValue: 0.5
+    RapidFireValue: 0.8
     Range: 100
     MissileSpeedVelocity: 10
     MissileCount: 1
-    AngleOffset: 10
+    AngleOffset: 6

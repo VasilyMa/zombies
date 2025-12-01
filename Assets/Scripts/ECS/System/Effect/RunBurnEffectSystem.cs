@@ -12,8 +12,7 @@ namespace Client
         readonly EcsFilterInject<Inc<BurnEffectState, HealthComponent, DamageHandlerComponent>, Exc<DeadComponent>> _filter = default;
         readonly EcsPoolInject<BurnEffectState> _burnStatePool = default;
         readonly EcsPoolInject<HealthComponent> _healthPool = default; 
-        readonly EcsPoolInject<DamageHandlerComponent> _damagePool = default; 
-        readonly EcsPoolInject<CleanUpEvent> _cleanPool = default;
+        readonly EcsPoolInject<DamageHandlerComponent> _damagePool = default;  
 
         public void Run (IEcsSystems systems) 
         {

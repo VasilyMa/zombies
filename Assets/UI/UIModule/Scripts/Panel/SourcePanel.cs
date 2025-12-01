@@ -336,6 +336,12 @@ public abstract class SourcePanel : MonoBehaviour
                 isOpen = false;
             });
     }
+
+    public virtual void UnInjectable()
+    {
+
+    }
+
     public virtual void OnDipose()
     {
         for (int i = 0; i < _layouts.Count; i++)

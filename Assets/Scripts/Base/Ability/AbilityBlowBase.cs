@@ -46,7 +46,7 @@ public class AbilityBlowBase : AbilityBase
                     ref var velocityComp = ref world.GetPool<VelocityComponent>().Add(missileEntity);
                     velocityComp.Speed = Speed;
                     ref var balisticComp = ref world.GetPool<BalisticComponent>().Get(missileEntity);
-                    balisticComp.StartPos = casterTransformComp.Transform.position;
+                    balisticComp.StartPos = casterTransformComp.Transform.position + Vector3.up;
                     balisticComp.EndPos = targetPos;
 
                     float distance = Vector3.Distance(balisticComp.StartPos, balisticComp.EndPos);
@@ -67,7 +67,7 @@ public class AbilityBlowBase : AbilityBase
                     missileEntity = world.NewEntity();
 
                     world.GetPool<PoolComponent>().Add(missileEntity).KeyName = PrefabMissile.name;
-                    var missileInstance = GameObject.Instantiate(PrefabMissile, Vector3.zero, Quaternion.identity);
+                    var missileInstance = GameObject.Instantiate(PrefabMissile, casterTransformComp.Transform.position + Vector3.up, Quaternion.identity);
                     ref var missileComp = ref world.GetPool<MissileComponent>().Add(missileEntity);
                     missileComp.KeyName = PrefabMissile.name;
                     ref var transformComp = ref world.GetPool<TransformComponent>().Add(missileEntity);
@@ -82,7 +82,9 @@ public class AbilityBlowBase : AbilityBase
                     velocityComp.Speed = Speed;
                     ref var balisticComp = ref world.GetPool<BalisticComponent>().Add(missileEntity);
                     balisticComp.StartPos = casterTransformComp.Transform.position;
-                    balisticComp.EndPos = targetPos;
+                    balisticComp.EndPos = targetPos; 
+                    ref var paticleComp = ref world.GetPool<ParticleComponent>().Add(missileEntity);
+                    paticleComp.Particles = missileInstance.GetComponentsInChildren<ParticleSystem>(); 
 
                     float distance = Vector3.Distance(balisticComp.StartPos, balisticComp.EndPos);
                     // t è t_target

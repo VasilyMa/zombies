@@ -21,6 +21,7 @@ namespace Client
         readonly EcsPoolInject<EngineComponent> _enginePool = default;
         readonly EcsPoolInject<HealthComponent> _healthPool = default;
         readonly EcsPoolInject<DamageHandlerComponent> _damageHandlerPool = default;
+        readonly EcsPoolInject<ConstructComponent> _constrcutPool = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -68,9 +69,10 @@ namespace Client
 
                 _state.Value.AddEntity(turretEntity.ToString(), turretEntity);
 
-                turret.gameObject.name = turretEntity.ToString();
+                turret.turretObject.name = turretEntity.ToString();
 
                 _damageHandlerPool.Value.Add(turretEntity);
+                _constrcutPool.Value.Add(turretEntity);
             }
         }
 

@@ -24,7 +24,7 @@ namespace Client
         readonly EcsPoolInject<MissileComponent> _missilePool = default;
         readonly EcsPoolInject<RequestShootEvent> _requestPool = default;
         readonly EcsPoolInject<CountMissileComponent> _countPool = default;
-
+        readonly EcsPoolInject<ParticleComponent> _particlePool = default;
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filterWeapon.Value)
@@ -58,7 +58,7 @@ namespace Client
                 }
 
                 ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
-                _fireTickPool.Value.Add(entity).RemainingTime =
+                if (!_fireTickPool.Value.Has(entity)) _fireTickPool.Value.Add(entity).RemainingTime =
                     Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
             }
         }
@@ -80,13 +80,16 @@ namespace Client
 
                 _pool.Value.Add(missileEntity).KeyName = weaponComp.MissilePrefab.name;
 
-                var missileInstance = Object.Instantiate(weaponComp.MissilePrefab);
+                var missileInstance = Object.Instantiate(weaponComp.MissilePrefab, weaponComp.FirePoint.position, Quaternion.identity);
 
                 ref var missileComp = ref _missilePool.Value.Add(missileEntity);
                 missileComp.KeyName = weaponComp.MissilePrefab.name;
 
                 ref var transformComp = ref _transformPool.Value.Add(missileEntity);
                 transformComp.Transform = missileInstance.transform;
+
+                ref var paticleComp = ref _particlePool.Value.Add(missileEntity);
+                paticleComp.Particles = missileInstance.GetComponentsInChildren<ParticleSystem>();
 
                 SetTransform(ref transformComp, ref weaponComp, angle);
             }

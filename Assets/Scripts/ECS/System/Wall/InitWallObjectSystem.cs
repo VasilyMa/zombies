@@ -15,6 +15,7 @@ namespace Client
         readonly EcsPoolInject<EngineComponent> _enginePool = default;
         readonly EcsPoolInject<HealthComponent> _healthPool = default;
         readonly EcsPoolInject<DamageHandlerComponent> _damageHandlerPool = default;
+        readonly EcsPoolInject<ConstructComponent> _constrcutPool = default;
 
         public void Init (IEcsSystems systems) 
         {
@@ -35,8 +36,9 @@ namespace Client
 
                 _state.Value.AddEntity(wallEntity.ToString(), wallEntity);
 
-                wall.gameObject.name = wallEntity.ToString();
+                wall.wallObject.name = wallEntity.ToString();
 
+                _constrcutPool.Value.Add(wallEntity);
                 _damageHandlerPool.Value.Add(wallEntity);
             }
         }

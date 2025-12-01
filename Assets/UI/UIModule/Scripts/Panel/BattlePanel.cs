@@ -9,7 +9,7 @@ public class BattlePanel : SourcePanel
 {
     [SerializeField] Button _devTool;
     [SerializeField] MovementJoystick movementJoystick;
-    [SerializeField] Image _expFill;
+    [SerializeField] Slider _expFill;
     [SerializeField] TextMeshProUGUI _levelTitle;
     [SerializeField] TextMeshProUGUI _resourcesTitle;
     [SerializeField] TextMeshProUGUI _elapsedTimeTitle;
@@ -49,7 +49,7 @@ public class BattlePanel : SourcePanel
         float seconds = value;
         TimeSpan time = TimeSpan.FromSeconds(seconds);
 
-        _elapsedTimeTitle.text = $"Time elapsed: {time.Minutes:D2}:{time.Seconds:D2}";
+        _elapsedTimeTitle.text = $"{time.Minutes:D2}:{time.Seconds:D2}";
     }
 
     void OnLevelChange(int level)
@@ -59,7 +59,7 @@ public class BattlePanel : SourcePanel
 
     void OnExpChange(float value)
     {
-        _expFill.fillAmount = value;
+        _expFill.value = value;
     }
 
     public override void OnDipose()
@@ -105,6 +105,11 @@ public class BattlePanel : SourcePanel
         _movePool = _world.GetPool<InputMovementState>(); 
         _disposePool = _world.GetPool<DisposeEvent>();
         _filter = _world.Filter<PlayerComponent>().End(); 
+    }
+
+    public override void UnInjectable()
+    {
+        _world = null;
     }
 
     void OnInputDown(InputType type)

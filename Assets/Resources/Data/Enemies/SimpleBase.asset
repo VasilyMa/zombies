@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: simple
   Weight: 0.5
-  MoveSpeed: 0.4
+  MoveSpeed: 0.35
   AttackSpeed: 2
-  Health: 2
+  Health: 4
   Attack: 2
   Delay: 1
   Range: 1

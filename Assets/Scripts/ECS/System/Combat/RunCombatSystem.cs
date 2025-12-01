@@ -14,7 +14,7 @@ namespace Client
         readonly EcsPoolInject<TransformComponent> _transformPool = default;
         readonly EcsPoolInject<InCombatState> _combatState = default;
         readonly EcsPoolInject<AttackComponent> _attackPool = default;
-        readonly EcsPoolInject<HealthComponent> _healthPool = default;
+        readonly EcsPoolInject<HealthComponent> _healthPool = default; 
 
         int layerMask = LayerMask.GetMask("Player", "Construction");
 
@@ -56,7 +56,7 @@ namespace Client
                         }
                     }
                      
-                    if (nearestEntity != -1)
+                    if (nearestEntity != -1 && _healthPool.Value.Has(nearestEntity))
                     {
                         ref var nearestTarget = ref _transformPool.Value.Get(nearestEntity);
                         Vector3 toTarget = nearestTarget.Transform.position - transformComp.Transform.position;

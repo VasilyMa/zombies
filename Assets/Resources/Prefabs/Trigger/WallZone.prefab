@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2362015166064208405}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.509, z: -0}
+  m_LocalPosition: {x: 0, y: 0.5, z: -1.25}
   m_LocalScale: {x: 1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1104537041012038011}
   - component: {fileID: 5677253722847488315}
   - component: {fileID: 6177122592496600264}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WallZone
   m_TagString: WallZone
   m_Icon: {fileID: 0}
@@ -167,7 +167,8 @@ GameObject:
   - component: {fileID: 4738896821238350538}
   - component: {fileID: 330638501375362784}
   - component: {fileID: 6995364891247697617}
-  m_Layer: 0
+  - component: {fileID: 7339308630791735342}
+  m_Layer: 7
   m_Name: WallObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,3 +243,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7339308630791735342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8533620920949637110}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.01912884, y: 0.00579173, z: 0.008567522}
+  m_Center: {x: 0, y: 0, z: 0.0042837593}

@@ -28,6 +28,7 @@ namespace Client
                     flameComp.Damage = upgradeEventComp.Damage;
                     flameComp.Duration = upgradeEventComp.Duration;
                     flameComp.Tick = upgradeEventComp.Tick;
+                    flameComp.FlamePrefab = upgradeEventComp.FlamePrefab;
                 }
 
             }

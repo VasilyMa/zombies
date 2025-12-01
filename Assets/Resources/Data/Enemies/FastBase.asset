@@ -16,7 +16,7 @@ MonoBehaviour:
   Weight: 0.2
   MoveSpeed: 1
   AttackSpeed: 1
-  Health: 5
+  Health: 3
   Attack: 5
   Delay: 0.5
   Range: 1

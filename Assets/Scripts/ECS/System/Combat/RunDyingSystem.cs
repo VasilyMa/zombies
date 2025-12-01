@@ -8,7 +8,7 @@ namespace Client
     {
         readonly EcsWorldInject _world = default;
         readonly EcsSharedInject<BattleState> _state = default;
-        readonly EcsFilterInject<Inc<DieEvent, TransformComponent>, Exc<PlayerComponent, DeadComponent>> _filter = default; 
+        readonly EcsFilterInject<Inc<DieEvent, TransformComponent>, Exc<PlayerComponent, DeadComponent, ConstructComponent>> _filter = default; 
         readonly EcsPoolInject<TransformComponent> _transformmPool = default;
         readonly EcsPoolInject<CleanUpEvent> _cleanUpPool = default;
         readonly EcsPoolInject<DeadComponent> _deadPool = default;

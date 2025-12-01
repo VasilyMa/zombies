@@ -24,6 +24,7 @@ namespace Client
         readonly EcsPoolInject<GrenadeComponent> _grenadePool = default;
         readonly EcsPoolInject<BalisticComponent> _balisticPool = default;
         readonly EcsPoolInject<SpeedComponent> _speedPool = default;
+        readonly EcsPoolInject<ParticleComponent> _particlePool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -55,7 +56,7 @@ namespace Client
 
                         var missileInstance = GameObject.Instantiate(
                             weaponComp.MissilePrefab,
-                            Vector3.zero,
+                            weaponComp.FirePoint.position,
                             Quaternion.identity
                         );
 
@@ -64,7 +65,9 @@ namespace Client
 
                         ref var transformComp = ref _transformPool.Value.Add(missileEntity);
                         transformComp.Transform = missileInstance.transform;
-
+                        ref var paticleComp = ref _particlePool.Value.Add(missileEntity);
+                        paticleComp.Particles = missileInstance.GetComponentsInChildren<ParticleSystem>();
+ 
                         _balisticPool.Value.Add(missileEntity); // добавляем Баллистику
                         SetTransform(ref transformComp, ref weaponComp, ref spreadComp); 
                     } 
@@ -105,7 +108,7 @@ namespace Client
                     setupComp.MissileEntity.Add(missileEntity);
 
                     ref var rapidFireComp = ref _rapidFirePool.Value.Get(entity);
-                    _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
+                    if (!_fireTickPool.Value.Has(entity)) _fireTickPool.Value.Add(entity).RemainingTime = Mathf.Clamp(rapidFireComp.RapidfireSpeed - (rapidFireComp.RapidfireSpeed * rapidFireComp.Modifier), 0.01f, 10f);
                 }
             }
         }

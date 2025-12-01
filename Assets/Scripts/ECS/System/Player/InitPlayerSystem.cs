@@ -25,6 +25,7 @@ namespace Client
         readonly EcsPoolInject<DamageHandlerComponent> _damagePool = default;
         readonly EcsPoolInject<BoundsComponent> _boundsPool = default;
         readonly EcsPoolInject<CameraComponent> _cameraPool = default;
+        readonly EcsPoolInject<ColliderComponent> _colliderPool = default;
 
         public void Init (IEcsSystems systems) 
         { 
@@ -108,6 +109,11 @@ namespace Client
             }
 
             transformComp.Transform.gameObject.name = "player";
+
+            if (playerInstance.TryGetComponent<Collider>(out var collider))
+            {
+                _colliderPool.Value.Add(playerEntity).Collider = collider;
+            }
 
             _state.Value.AddEntity("player", playerEntity);
 
